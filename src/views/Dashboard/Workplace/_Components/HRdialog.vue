@@ -204,7 +204,11 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer flex justify-center">
-        <el-button color="#626aef" @click="Close" size="large" plain
+        <el-button
+          color="#626aef"
+          @click="Close(ruleFormRef)"
+          size="large"
+          plain
           >取消</el-button
         >
         <el-button
@@ -220,6 +224,7 @@
           @click="resetForm(ruleFormRef)"
           size="large"
           class="text-white"
+          plain
           >重置</el-button
         >
       </span>
@@ -229,6 +234,7 @@
 <script lang="ts">
 import { defineComponent, ref, SetupContext, reactive } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
+import { ElMessage } from 'element-plus'
 
 const tempObj = {
   // 试用薪酬
@@ -333,16 +339,26 @@ const HRform = (data: any) => {
     if (!formEl) return
     await formEl.validate((valid: any, fields: any) => {
       if (valid) {
-        console.log('submit!')
+        ElMessage({
+          showClose: true,
+          message: '提交成功',
+          type: 'success'
+        })
+        data.context.emit('close')
       } else {
-        alert('必填项未填')
+        ElMessage({
+          showClose: true,
+          message: '必填项没有填',
+          type: 'error'
+        })
+        // alert('必填项未填')
       }
     })
   }
   // 重置按钮
   const resetForm = (formEl: FormInstance | undefined) => {
     if (!formEl) return
-    formEl.resetFields()
+    // formEl.resetFields()
     form.value = JSON.parse(JSON.stringify(tempObj))
     // formEl.resetFields()
   }
