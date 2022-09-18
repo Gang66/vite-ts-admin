@@ -4,7 +4,7 @@
     :title="data.title"
     width="820px"
     custom-class="dialogHeader"
-    @closed="closed(ruleFormRef)"
+    @closed="Close(ruleFormRef)"
   >
     <!-- 面试者信息 -->
     <el-form :model="form" label-width="110px" ref="ruleFormRef" :rules="rules">
@@ -192,7 +192,7 @@
       </el-row>
       <el-row>
         <el-col :span="18">
-          <el-form-item label="6、综合评语">
+          <el-form-item label="6、综合评语" prop="Comments">
             <el-input
               v-model="form.Comments"
               type="textarea"
@@ -229,7 +229,125 @@
 <script lang="ts">
 import { defineComponent, ref, SetupContext, reactive } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
-const HRform = () => {}
+
+const tempObj = {
+  // 试用薪酬
+  tryOutFormalRemuneration: '',
+  // 正式酬薪
+  FormalRemuneration: '',
+  //劳资风险系数
+  laborRisk: '',
+  // 制度
+  system: '',
+  // 整体印象
+  impression: '',
+  // 酬薪类型
+  typeRemuneration: '',
+  // 薪酬备注
+  RemuneratioRemarks: '',
+  // 综合评语
+  Comments: '',
+  // 劳资纠纷
+  LaborDispute: ''
+}
+
+const HRform = (data: any) => {
+  const ruleFormRef = ref<FormInstance>()
+  const rules = ref<FormRules>({
+    FormalRemuneration: [
+      {
+        required: true,
+        message: '必填项',
+        trigger: 'blur'
+      }
+    ],
+    LaborDispute: [
+      {
+        required: true,
+        message: '必填项',
+        trigger: 'blur'
+      }
+    ],
+    laborRisk: [
+      {
+        required: true,
+        message: '必填项',
+        trigger: 'blur'
+      }
+    ],
+    system: [
+      {
+        required: true,
+        message: '必填项',
+        trigger: 'blur'
+      }
+    ],
+    impression: [
+      {
+        required: true,
+        message: '必填项',
+        trigger: 'blur'
+      }
+    ],
+    typeRemuneration: [
+      {
+        required: true,
+        message: '必填项',
+        trigger: 'blur'
+      }
+    ],
+    RemuneratioRemarks: [
+      {
+        required: true,
+        message: '必填项',
+        trigger: 'blur'
+      }
+    ],
+    tryOutFormalRemuneration: [
+      {
+        required: true,
+        message: '必填项',
+        trigger: 'blur'
+      }
+    ],
+    tryOut: [
+      {
+        required: true,
+        message: '必填项',
+        trigger: 'blur'
+      }
+    ]
+  })
+  // const tryOut = ref()
+
+  const form = ref()
+  form.value = JSON.parse(JSON.stringify(tempObj))
+  // 关闭按钮
+  const Close = (formEl: FormInstance | undefined) => {
+    data.context.emit('close')
+    formEl.resetFields()
+    form.value = JSON.parse(JSON.stringify(tempObj))
+  }
+  // 提交按钮
+  const Confirm = async (formEl: FormInstance | undefined) => {
+    if (!formEl) return
+    await formEl.validate((valid: any, fields: any) => {
+      if (valid) {
+        console.log('submit!')
+      } else {
+        alert('必填项未填')
+      }
+    })
+  }
+  // 重置按钮
+  const resetForm = (formEl: FormInstance | undefined) => {
+    if (!formEl) return
+    formEl.resetFields()
+    form.value = JSON.parse(JSON.stringify(tempObj))
+    // formEl.resetFields()
+  }
+  return { Close, Confirm, ruleFormRef, rules, form, resetForm }
+}
 export default defineComponent({
   name: 'HRdialog',
   props: {
@@ -247,129 +365,8 @@ export default defineComponent({
   },
   emits: ['close'],
   setup(props, context: SetupContext) {
-    const ruleFormRef = ref<FormInstance>()
-    const rules = ref<FormRules>({
-      FormalRemuneration: [
-        {
-          required: true,
-          message: '必填项',
-          trigger: 'blur'
-        }
-      ],
-      LaborDispute: [
-        {
-          required: true,
-          message: '必填项',
-          trigger: 'blur'
-        }
-      ],
-      laborRisk: [
-        {
-          required: true,
-          message: '必填项',
-          trigger: 'blur'
-        }
-      ],
-      system: [
-        {
-          required: true,
-          message: '必填项',
-          trigger: 'blur'
-        }
-      ],
-      impression: [
-        {
-          required: true,
-          message: '必填项',
-          trigger: 'blur'
-        }
-      ],
-      typeRemuneration: [
-        {
-          required: true,
-          message: '必填项',
-          trigger: 'blur'
-        }
-      ],
-      RemuneratioRemarks: [
-        {
-          required: true,
-          message: '必填项',
-          trigger: 'blur'
-        }
-      ],
-      tryOutFormalRemuneration: [
-        {
-          required: true,
-          message: '必填项',
-          trigger: 'blur'
-        }
-      ],
-      tryOut: [
-        {
-          required: true,
-          message: '必填项',
-          trigger: 'blur'
-        }
-      ]
-    })
-    const tryOut = ref()
-    const form = reactive({
-      // 试用薪酬
-      tryOutFormalRemuneration: '',
-      // 正式酬薪
-      FormalRemuneration: '',
-      //劳资风险系数
-      laborRisk: '',
-      // 制度
-      system: '',
-      // 整体印象
-      impression: '',
-      // 酬薪类型
-      typeRemuneration: '',
-      // 薪酬备注
-      RemuneratioRemarks: '',
-      // 综合评语
-      Comments: '',
-      // 劳资纠纷
-      LaborDispute: ''
-      //   desc: ''
-    })
-    // 关闭按钮
-    const Close = () => {
-      context.emit('close', '')
-    }
-    // 提交按钮
-    const Confirm = async (formEl: FormInstance | undefined) => {
-      if (!formEl) return
-      await formEl.validate((valid: any, fields: any) => {
-        if (valid) {
-          console.log('submit!')
-        } else {
-          alert('必填项未填')
-        }
-      })
-    }
-    // 重置按钮
-    const resetForm = (formEl: FormInstance | undefined) => {
-      if (!formEl) return
-      form.Comments = ''
-      formEl.resetFields()
-    }
-    // 关闭dialog重置表单
-    const closed = (formEl: FormInstance | undefined) => {
-      form.Comments = ''
-      formEl.resetFields()
-    }
     return {
-      closed,
-      resetForm,
-      ruleFormRef,
-      rules,
-      tryOut,
-      Close,
-      Confirm,
-      form
+      ...HRform({ context })
     }
   }
 })
