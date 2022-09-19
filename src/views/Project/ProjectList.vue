@@ -1,61 +1,150 @@
 <template>
-    <div>
-        <el-table :data='list.tableData' border style='width: 100%;'>
-            <el-table-column fixed prop='date' label='日期' />
-            <el-table-column prop='name' label='姓名' />
-            <el-table-column prop='province' label='省份' />
-            <el-table-column fixed='right' label='操作'>
-                <template #default='scope'>
-                    <el-button type='text' size='small'>
-                        <router-link :to='"/Project/ProjectDetail/" + scope.row.projName'>编辑</router-link>
-                    </el-button>
-                </template>
-            </el-table-column>
+  <div class="m-10 w-3/4">
+    <el-card class="box-card">
+      <div class="flex justify-between">
+        <span class="text-blue-400">创新举措</span>
+        <span>
+          <el-select placeholder="创建时间" style="width: 150px"></el-select>
+          <el-select placeholder="字典状态" style="width: 150px"></el-select>
+          <el-button type="primary" style="margin-left: 20px">搜索</el-button>
+          <el-button type="primary" @click="openHrDialog">新增</el-button>
+        </span>
+      </div>
+      <div class="mt-3">
+        <el-table
+          :header-cell-style="{ background: '#4372e3', color: '#fff' }"
+          :data="tableData"
+          style="width: 100%"
+        >
+          <el-table-column type="index" label="序号" width="100" />
+          <el-table-column prop="date" label="创建时间" width="130" />
+          <el-table-column prop="type" label="建议类型" width="130" />
+          <el-table-column prop="name" label="建议人" width="130" />
+          <el-table-column
+            :show-overflow-tooltip="true"
+            prop="content"
+            label="建议内容"
+            width="130"
+          />
+          <el-table-column label="处理状态" width="130" />
+          <el-table-column prop="name" label="处理人" width="130" />
+          <el-table-column prop="content" label="处理内容">
+            <template #default="{ row }">
+              <el-button type="text" @click="hasDialog(row)">
+                {{ row.content }}</el-button
+              >
+            </template>
+          </el-table-column>
         </el-table>
-    </div>
+      </div>
+      <div class="flex justify-end">
+        <el-pagination
+          v-model:currentPage="currentPage4"
+          v-model:page-size="pageSize4"
+          :page-sizes="[5, 10, 20, 30]"
+          :small="small"
+          :disabled="disabled"
+          :background="background"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="tableData.length"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+        />
+      </div>
+    </el-card>
+    <innovationDialog :data="innovationData" @closed="closed" />
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
-export default defineComponent({
-    name: 'ProjectList',
-    setup() {
-        const list = reactive({
-            tableData: [{
-                date: '2016-05-02',
-                name: '王小虎',
-                province: '上海',
-                projName: '001'
-            }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                province: '上海',
-                projName: '002'
-            }, {
-                date: '2016-05-01',
-                name: '王小虎',
-                province: '上海',
-                projName: '003'
-            }, {
-                date: '2016-05-03',
-                name: '王小虎',
-                province: '上海',
-                projName: '004'
-            }, {
-                date: '2016-05-03',
-                name: '王小虎',
-                province: '上海',
-                projName: '005'
-            }]
-        })
-        const handleClick = (row: any) => {
-            console.log(row)
-        }
-        return {
-            list,
-            handleClick
-        }
+import { defineComponent, reactive, ref, watch } from 'vue'
+import innovationDialog from './components/innovationDialog.vue'
+// 创新举措
+const innTable = () => {
+  // 点击打开dialog
+  const openHrDialog = () => {
+    innovationData.dialogVisible = true
+  }
+  // 监听关闭按钮
+  const closed = () => {
+    innovationData.dialogVisible = false
+  }
+  // 分页器
+  const currentPage4 = ref(1)
+  const pageSize4 = ref(5)
+  const handleSizeChange = (val: number) => {
+    console.log(`${val} items per page`)
+  }
+  const handleCurrentChange = (val: number) => {
+    console.log(`current page: ${val}`)
+  }
+
+  const innovationData = reactive({
+    dialogVisible: false,
+    userInfo: {}
+  })
+  const tableData = [
+    {
+      date: '2016-05-03',
+      type: '其他建议',
+      name: '冯佳丽',
+      content:
+        '某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某',
+      number: '1'
+    },
+    {
+      date: '2016-05-02',
+      type: '培训调研',
+      name: '冯佳丽',
+      content:
+        '某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某',
+      number: '2'
+    },
+    {
+      date: '2016-05-04',
+      type: '建议建议',
+      name: '匿名',
+      content:
+        '某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某',
+      number: '3'
+    },
+    {
+      date: '2016-05-01',
+      type: '创新举措',
+      name: '匿名',
+      content:
+        '某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某',
+      number: '4'
     }
+  ]
+  const hasDialog = (row: any) => {
+    innovationData.dialogVisible = true
+    // console.log(row)
+    innovationData.userInfo = row
+    console.log(innovationData.userInfo)
+  }
+  return {
+    tableData,
+    hasDialog,
+    innovationData,
+    closed,
+    openHrDialog,
+    currentPage4,
+    pageSize4,
+    handleSizeChange,
+    handleCurrentChange
+  }
+}
+export default defineComponent({
+  name: 'ProjectList',
+  components: {
+    innovationDialog
+  },
+  setup() {
+    return {
+      ...innTable()
+    }
+  }
 })
 </script>
-
+<style></style>

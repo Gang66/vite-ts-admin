@@ -344,7 +344,7 @@ const HRform = (data: any) => {
           message: '提交成功',
           type: 'success'
         })
-        data.context.emit('close')
+        Close(formEl)
       } else {
         ElMessage({
           showClose: true,
@@ -358,7 +358,7 @@ const HRform = (data: any) => {
   // 重置按钮
   const resetForm = (formEl: FormInstance | undefined) => {
     if (!formEl) return
-    // formEl.resetFields()
+    formEl.resetFields()
     form.value = JSON.parse(JSON.stringify(tempObj))
     // formEl.resetFields()
   }

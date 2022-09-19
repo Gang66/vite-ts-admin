@@ -128,16 +128,10 @@ export default {
 }
 </script>
 <style lang="postcss" scoped>
-/* .el-button  /deep/{
-  margin-top: 12.5rem;
-} */
-/* .inputs ::v-deep(.el-input__inner) {
+.inputs ::v-deep(.el-input__inner) {
   width: 200px;
 }
 .twoInput ::v-deep(.el-input__inner) {
   width: 400px;
-} */
-/* .contant /deep/ .el-input__inner {
-  width: 300px;
-} */
+}
 </style>
