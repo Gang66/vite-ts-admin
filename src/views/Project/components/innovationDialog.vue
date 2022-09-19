@@ -2,19 +2,25 @@
   <el-dialog
     v-model="data.dialogVisible"
     width="840px"
-    :before-close="handleClose"
     custom-class="InnDialog"
     @closed="closeDialog(ruleFormRef)"
+    @open="openDialog"
   >
     {{ data.userInfo }}
     <!-- 培训调研 -->
-    <el-tabs v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane label="培训调研" name="one">
+    <el-tabs v-model="fromInfo.number">
+      <el-tab-pane label="培训调研" name="1">
         <template #label>
           <span class="text-2xl text-white">培训调研</span>
         </template>
-        <el-form ref="ruleFormRef" :model="inndata" :rules="rules">
-          <div v-if="activeName === 'one'" class="pl-10 pr-10 mt-10">
+
+        <el-form
+          ref="ruleFormRef"
+          :model="inndata"
+          :rules="rules"
+          v-if="fromInfo.number === '1'"
+        >
+          <div class="pl-10 pr-10 mt-10">
             <h4 class="font-black">1.您需要什么样的培训内容</h4>
             <el-form-item prop="needs">
               <el-input
@@ -25,7 +31,7 @@
               ></el-input
             ></el-form-item>
           </div>
-          <div v-if="activeName === 'one'" class="pl-10 pr-10 mt-3">
+          <div class="pl-10 pr-10 mt-3">
             <h4 class="font-black">2.您需要什么样的培训方式，如何调整为妥</h4>
 
             <el-form-item prop="trainingMethod">
@@ -37,7 +43,7 @@
               ></el-input
             ></el-form-item>
           </div>
-          <div v-if="activeName === 'one'" class="pl-10 pr-10 mt-3">
+          <div class="pl-10 pr-10 mt-3">
             <h4 class="font-black">
               3.您需要对培训时间、培训试题、培训课程数量与质量有何建议
             </h4>
@@ -53,11 +59,11 @@
           </div>
         </el-form>
       </el-tab-pane>
-      <el-tab-pane label="意见建议" name="second">
+      <el-tab-pane label="意见建议" name="2">
         <template #label>
           <span class="text-2xl text-white">意见培训</span>
         </template>
-        <div class="pl-10 pr-10 mt-10" v-if="activeName === 'second'">
+        <div class="pl-10 pr-10 mt-10" v-if="fromInfo.number === '2'">
           <h4 class="font-black">
             1.您对公司在发展过程中存在哪些问题以及有何建议
           </h4>
@@ -73,11 +79,11 @@
           </el-form>
         </div>
       </el-tab-pane>
-      <el-tab-pane label="创新举措" name="third">
+      <el-tab-pane label="创新举措" name="3">
         <template #label>
           <span class="text-2xl text-white">创新举措</span>
         </template>
-        <div class="pl-10 pr-10 mt-10" v-if="activeName === 'third'">
+        <div class="pl-10 pr-10 mt-10" v-if="fromInfo.number === '3'">
           <h4 class="font-black">
             1.您对本职工作或其他岗位工作有何改善、改进措施，得以提升工作品质、效率、效果、或减少工作投入
           </h4>
@@ -93,11 +99,11 @@
           </el-form>
         </div>
       </el-tab-pane>
-      <el-tab-pane label="其他建议" name="fourth">
+      <el-tab-pane label="其他建议" name="4">
         <template #label>
           <span class="text-2xl text-white">其他建议</span>
         </template>
-        <div class="pl-10 pr-10 mt-10" v-if="activeName === 'fourth'">
+        <div class="pl-10 pr-10 mt-10" v-if="fromInfo.number === '4'">
           <h4 class="font-black">
             1.您对公司的发展、经营、管理、销售、机制、流程等方面还有什么建议
           </h4>
@@ -132,7 +138,7 @@
   </el-dialog>
 </template>
 <script lang="ts">
-import { defineComponent, reactive, ref, SetupContext, watch } from 'vue'
+import { defineComponent, reactive, ref, SetupContext } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 const inndatademo = {
   // 需要什么样培训的内容
@@ -150,6 +156,7 @@ const inndatademo = {
   // 是否匿名
   checked1: false
 }
+
 const one = (data: any) => {
   const ruleFormRef = ref<FormInstance>()
   const rules = reactive({
@@ -169,9 +176,11 @@ const one = (data: any) => {
     ]
   })
   // tab页显示第一个
-  const activeName = ref('one')
+  const activeName = ref('1')
   const inndata = ref()
   inndata.value = JSON.parse(JSON.stringify(inndatademo))
+
+  inndata.value = data.fromInfo.value
   // 关闭dialog
   const closeDialog = (formEl: FormInstance | undefined) => {
     data.SetupContext.emit('closed')
@@ -183,6 +192,8 @@ const one = (data: any) => {
     if (!formEl) return
     await formEl.validate((valid: any, fields: any) => {
       if (valid) {
+        console.log(inndata.value)
+
         console.log('submit!')
       } else {
         console.log('error submit!', fields)
@@ -200,6 +211,7 @@ const one = (data: any) => {
     confirm
   }
 }
+
 export default defineComponent({
   name: '',
   props: {
@@ -209,16 +221,15 @@ export default defineComponent({
   },
 
   setup(props, SetupContext) {
-    watch(
-      () => props.data.userInfo,
-      (val) => {
-        console.log(val)
-      },
-      { deep: true }
-    )
-
+    const fromInfo = ref()
+    fromInfo.value = props.data.userInfo
+    const openDialog = () => {
+      fromInfo.value = props.data.userInfo
+    }
     return {
-      ...one({ SetupContext })
+      fromInfo,
+      openDialog,
+      ...one({ SetupContext, fromInfo })
     }
   }
 })

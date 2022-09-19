@@ -22,7 +22,7 @@
           <el-table-column prop="name" label="建议人" width="130" />
           <el-table-column
             :show-overflow-tooltip="true"
-            prop="content"
+            prop="form.needs"
             label="建议内容"
             width="130"
           />
@@ -31,7 +31,7 @@
           <el-table-column prop="content" label="处理内容">
             <template #default="{ row }">
               <el-button type="text" @click="hasDialog(row)">
-                {{ row.content }}</el-button
+                {{ row.form.needs }}</el-button
               >
             </template>
           </el-table-column>
@@ -81,40 +81,97 @@ const innTable = () => {
 
   const innovationData = reactive({
     dialogVisible: false,
-    userInfo: {}
+    userInfo: {
+      number: '1'
+    }
   })
   const tableData = [
     {
       date: '2016-05-03',
       type: '其他建议',
       name: '冯佳丽',
-      content:
-        '某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某',
-      number: '1'
+      form: {
+        // 需要什么样培训的内容
+        needs: '111某某某123',
+        // 需要什么样的培训方式
+        trainingMethod: '111某某某某某某',
+        // 对培训时间等的建议
+        trainingSuggest: '111某某某某某某1',
+        // 意见培训
+        opinionTraining: '111',
+        // 创新举措
+        innovativeInitiatives: '112',
+        // 其他建议
+        otherSuggestion: '1113'
+      },
+
+      number: '4'
     },
     {
       date: '2016-05-02',
       type: '培训调研',
       name: '冯佳丽',
-      content:
-        '某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某',
-      number: '2'
+      form: {
+        // 需要什么样培训的内容
+        needs:
+          '222某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某',
+        // 需要什么样的培训方式
+        trainingMethod: '222',
+        // 对培训时间等的建议
+        trainingSuggest: '222',
+        // 意见培训
+        opinionTraining: '222',
+        // 创新举措
+        innovativeInitiatives: '2223',
+        // 其他建议
+        otherSuggestion: '2224'
+      },
+
+      number: '1'
     },
     {
       date: '2016-05-04',
-      type: '建议建议',
+      type: '意见建议',
       name: '匿名',
-      content:
-        '某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某',
-      number: '3'
+      form: {
+        // 需要什么样培训的内容
+        needs:
+          '333某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某',
+        // 需要什么样的培训方式
+        trainingMethod: '333某某某某某某',
+        // 对培训时间等的建议
+        trainingSuggest: '333某某某某某某1',
+        // 意见培训
+        opinionTraining: '333123',
+        // 创新举措
+        innovativeInitiatives: '3331231',
+        // 其他建议
+        otherSuggestion: '3331212232'
+      },
+
+      number: '2'
     },
     {
       date: '2016-05-01',
       type: '创新举措',
       name: '匿名',
-      content:
-        '某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某',
-      number: '4'
+      form: {
+        // 需要什么样培训的内容
+        needs:
+          '444某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某',
+        // 需要什么样的培训方式
+        trainingMethod: '444某某某某某某',
+        // 对培训时间等的建议
+        trainingSuggest: '444某某某某某某1',
+        // 意见培训
+        opinionTraining: '444123',
+        // 创新举措
+        innovativeInitiatives: '4441231',
+        // 其他建议
+        otherSuggestion: '4441212232'
+      },
+
+      number: '3'
     }
   ]
   const hasDialog = (row: any) => {
