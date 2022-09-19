@@ -209,15 +209,10 @@ export default defineComponent({
   },
 
   setup(props, SetupContext) {
-    const abc = reactive({
-      name: '123',
-      form: {}
-    })
     watch(
-      () => props.data,
+      () => props.data.userInfo,
       (val) => {
-        abc.form = { ...val }
-        console.log(abc.form) // 此处打印显示 form有值 但是无法回显
+        console.log(val)
       },
       { deep: true }
     )
