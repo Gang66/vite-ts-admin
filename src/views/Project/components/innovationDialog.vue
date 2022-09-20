@@ -1,12 +1,14 @@
 <template>
   <el-dialog
+    v-if="fromInfo"
     v-model="data.dialogVisible"
     width="840px"
     custom-class="InnDialog"
     @closed="closeDialog(ruleFormRef)"
     @open="openDialog"
   >
-    {{ data.userInfo }}
+    <!-- {{ data.userInfo }} -->
+    {{ fromInfo }}
     <!-- 培训调研 -->
     <el-tabs v-model="fromInfo.number">
       <el-tab-pane label="培训调研" name="1">
@@ -61,7 +63,7 @@
       </el-tab-pane>
       <el-tab-pane label="意见建议" name="2">
         <template #label>
-          <span class="text-2xl text-white">意见培训</span>
+          <span class="text-2xl text-white">意见建议</span>
         </template>
         <div class="pl-10 pr-10 mt-10" v-if="fromInfo.number === '2'">
           <h4 class="font-black">
@@ -119,7 +121,7 @@
         </div>
       </el-tab-pane>
       <div class="pl-10 pr-10 mt-3 flex items-center">
-        <el-checkbox v-model="inndata.checked1" label="匿名" size="large" />
+        <el-checkbox v-model="inndata.checked" label="匿名" size="large" />
         <span class="ml-2 mt-1 text-orange-200"
           >勾选后，表示用户可匿名参与此次问卷调查</span
         >
@@ -154,7 +156,7 @@ const inndatademo = {
   // 其他建议
   otherSuggestion: '',
   // 是否匿名
-  checked1: false
+  checked: false
 }
 
 const one = (data: any) => {
@@ -175,12 +177,11 @@ const one = (data: any) => {
       { required: true, message: '必填项', trigger: 'blur' }
     ]
   })
-  // tab页显示第一个
-  const activeName = ref('1')
+
   const inndata = ref()
   inndata.value = JSON.parse(JSON.stringify(inndatademo))
 
-  inndata.value = data.fromInfo.value
+  // inndata.value = data.fromInfo.value.form
   // 关闭dialog
   const closeDialog = (formEl: FormInstance | undefined) => {
     data.SetupContext.emit('closed')
@@ -207,7 +208,6 @@ const one = (data: any) => {
     ruleFormRef,
     closeDialog,
     inndata,
-    activeName,
     confirm
   }
 }
@@ -225,7 +225,9 @@ export default defineComponent({
     fromInfo.value = props.data.userInfo
     const openDialog = () => {
       fromInfo.value = props.data.userInfo
+      // console.log(fromInfo.value.form)
     }
+    openDialog()
     return {
       fromInfo,
       openDialog,
