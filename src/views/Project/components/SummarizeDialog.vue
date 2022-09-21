@@ -188,12 +188,12 @@
                     >差</span
                   >
                   <span
-                    v-if="Evaluation === '中'"
+                    v-else-if="Evaluation === '中'"
                     class="w-6 h-6 bg-orange-300 text-white rounded-md text-center"
                     >中</span
                   >
                   <span
-                    v-if="Evaluation === '好'"
+                    v-else-if="Evaluation === '好'"
                     class="w-6 h-6 bg-green-500 text-white rounded-md text-center"
                     >好</span
                   >
@@ -386,6 +386,21 @@ export default defineComponent({
         Evaluation3.value = '差'
       }
     }
+    const fdf = ref()
+    fdf.value = [
+      { name: '好', v: 1 },
+      { name: '中', v: 2 },
+      { name: '差', v: 3 }
+    ]
+    const SummarizeRadio1dsd = (val: any) => {
+      let obj = fdf.value.find((x) => (x.v = val))
+      if (obj) {
+        return obj.name
+      } else {
+        return '-'
+      }
+    }
+
     // 表单数据
     const formdata = reactive({
       // 时间利用及内容阐述的内容

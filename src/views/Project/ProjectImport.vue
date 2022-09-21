@@ -1,5 +1,5 @@
 <template>
-  <div class="flex">
+  <div class="project-project-import flex">
     <div class="mt-10 w-3/4">
       <!-- 头部 -->
       <div class="bg-blue-300 rounded-md p-3 flex justify-between">
@@ -47,21 +47,21 @@
             <a
               href="javascript:;"
               @click="untrial"
-              :class="{ activetext: currentIndex === '1' }"
+              :class="{ 'text-red-300': currentIndex === '1' }"
               >未审</a
             >
             <a
               href="javascript:;"
               class="ml-2"
               @click="Tried"
-              :class="{ activetext: currentIndex === '2' }"
+              :class="{ 'text-red-300': currentIndex === '2' }"
               >已审</a
             >
             <a
               href="javascript:;"
               class="ml-2"
               @click="notWritten"
-              :class="{ activetext: currentIndex === '3' }"
+              :class="{ 'text-red-300': currentIndex === '3' }"
               >未写</a
             >
           </div>
@@ -121,6 +121,7 @@
 import { defineComponent, reactive, ref } from 'vue'
 import rightDialog from '/@/views/Components/rightDialog.vue'
 import SummarizeDialogVue from './components/SummarizeDialog.vue'
+
 export default defineComponent({
   name: 'ProjectImport',
   components: {
@@ -139,6 +140,13 @@ export default defineComponent({
     }
     const SummarizeData = reactive({
       dialogVisible: false
+    })
+
+    const fromInfro = reactive({
+      list: [],
+      currentIndex: 100,
+      currentPage4: 1,
+      pageSize4: 10
     })
     const tableData1 = [
       {
@@ -191,7 +199,6 @@ export default defineComponent({
 })
 </script>
 <style lang="postcss" scoped>
-.activetext {
-  color: #409eff;
+.project-project-import {
 }
 </style>
