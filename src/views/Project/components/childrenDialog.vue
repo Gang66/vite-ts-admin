@@ -30,7 +30,7 @@
         <!-- 日期 -->
         <div class="flex">
           <span>工作日期</span>
-          <span class="ml-2 font-extrabold">2022-09-21</span>
+          <span class="ml-2 font-extrabold">{{ NowTime }}</span>
         </div>
         <!-- 时间 -->
         <div class="flex items-center mt-6">
@@ -159,6 +159,16 @@ export default defineComponent({
         data.start = 59
       }
     }
+    // 现在的年月日
+    const NowTime = ref()
+    const GetTime = () => {
+      let nowData = new Date()
+      let yy = nowData.getFullYear()
+      let mm = nowData.getMonth() + 1
+      let dd = nowData.getDate()
+      NowTime.value = yy + '年' + mm + '月' + dd + '日'
+    }
+    GetTime()
     //   结束时间小于59 大于0
     const inputed1 = (val: any) => {
       data.end = val.replace(/[^\d]/g, '').replace(/^0{1,}/g, '')
@@ -213,12 +223,15 @@ export default defineComponent({
       contant1: ''
     })
     const closed = (val: any) => {
+      data.start = 0
+      data.end = 0
       val.resetFields()
     }
     const close = () => {
       SetupContext.emit('closed')
     }
     return {
+      NowTime,
       opened,
       whenTime,
       close,

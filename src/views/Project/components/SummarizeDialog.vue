@@ -318,7 +318,10 @@
               </div>
               <div class="h-16">
                 <el-form-item prop="Improve">
-                  <el-input v-model="formdata.Improve"></el-input>
+                  <el-input
+                    placeholder="请按序列号排列进行时间利用内容出参数，重复率不超过20%"
+                    v-model="formdata.Improve"
+                  ></el-input>
                 </el-form-item>
               </div>
               <div class="h-8 leading-8 pl-2 bg-gray-200 flex items-center">
@@ -326,7 +329,10 @@
               </div>
               <div class="h-16">
                 <el-form-item prop="plan">
-                  <el-input v-model="formdata.plan"></el-input>
+                  <el-input
+                    placeholder="请按序列号排列进行时间利用内容出参数，重复率不超过20%"
+                    v-model="formdata.plan"
+                  ></el-input>
                 </el-form-item>
               </div>
             </div>
@@ -380,12 +386,13 @@ export default defineComponent({
         Evaluation3.value = '差'
       }
     }
+    // 表单数据
     const formdata = reactive({
       // 时间利用及内容阐述的内容
       contant: '',
       // 时间利用及内容和参数的单选框
-      radio1: '',
-      radio2: '',
+      radio1: '中',
+      radio2: '好',
       // 改进措施内容,
       Improve: '',
       // 明日计划内容
