@@ -48,7 +48,7 @@
                 </div>
                 <div class="w-3/4 flex justify-between items-center">
                   <span></span>
-                  <span class="mr-1" @click="openchildDialog">
+                  <span class="mr-1" @click="openchildDialog(1)">
                     <img src="../../../assets/img/add.png" alt="" class="w-4"
                   /></span>
                 </div>
@@ -61,7 +61,7 @@
                 </div>
                 <div class="w-3/4 flex justify-between items-center">
                   <span></span>
-                  <span class="mr-1" @click="openchildDialog">
+                  <span class="mr-1" @click="openchildDialog(2)">
                     <img src="../../../assets/img/add.png" alt="" class="w-4"
                   /></span>
                 </div>
@@ -74,7 +74,7 @@
                 </div>
                 <div class="w-3/4 flex justify-between items-center">
                   <span></span>
-                  <span class="mr-1" @click="openchildDialog">
+                  <span class="mr-1" @click="openchildDialog(3)">
                     <img src="../../../assets/img/add.png" alt="" class="w-4"
                   /></span>
                 </div>
@@ -87,7 +87,7 @@
                 </div>
                 <div class="w-3/4 flex justify-between items-center">
                   <span></span>
-                  <span class="mr-1" @click="openchildDialog">
+                  <span class="mr-1" @click="openchildDialog(4)">
                     <img src="../../../assets/img/add.png" alt="" class="w-4"
                   /></span>
                 </div>
@@ -107,7 +107,7 @@
                 </div>
                 <div class="w-3/4 flex justify-between items-center">
                   <span></span>
-                  <span class="mr-1" @click="openchildDialog">
+                  <span class="mr-1" @click="openchildDialog(5)">
                     <img src="../../../assets/img/add.png" alt="" class="w-4"
                   /></span>
                 </div>
@@ -120,7 +120,7 @@
                 </div>
                 <div class="w-3/4 flex justify-between items-center">
                   <span></span>
-                  <span class="mr-1" @click="openchildDialog">
+                  <span class="mr-1" @click="openchildDialog(6)">
                     <img src="../../../assets/img/add.png" alt="" class="w-4"
                   /></span>
                 </div>
@@ -133,7 +133,7 @@
                 </div>
                 <div class="w-3/4 flex justify-between items-center">
                   <span></span>
-                  <span class="mr-1" @click="openchildDialog">
+                  <span class="mr-1" @click="openchildDialog(7)">
                     <img src="../../../assets/img/add.png" alt="" class="w-4"
                   /></span>
                 </div>
@@ -146,7 +146,7 @@
                 </div>
                 <div class="w-3/4 flex justify-between items-center">
                   <span></span>
-                  <span class="mr-1" @click="openchildDialog">
+                  <span class="mr-1" @click="openchildDialog(8)">
                     <img src="../../../assets/img/add.png" alt="" class="w-4"
                   /></span>
                 </div>
@@ -267,15 +267,17 @@
                 </div>
               </div>
               <!-- 成果转换 -->
-
               <div
-                class="h-8 leading-8 pl-2 bg-gray-200 flex items-center flex justify-between"
+                class="h-8 leading-8 pl-2 bg-gray-200 flex items-center justify-between"
               >
                 <div>
                   <span class="text font-extrabold">成果转换</span>
                   <span class="ml-8 text-xs">请点击右侧按钮添加成果转换</span>
                 </div>
-                <div class="w-4 h-4 mr-3">
+                <div
+                  class="w-4 h-4 mr-3 cursor-pointer"
+                  @click="openchildDialog(11)"
+                >
                   <img src="../../../assets/img/add.png" alt="" />
                 </div>
               </div>
@@ -429,12 +431,14 @@ export default defineComponent({
       SetupContext.emit('close')
     }
     // 打开子组件的dialog
-    const openchildDialog = () => {
+    const openchildDialog = (val: any) => {
       showChilDialog.isOpen = true
+      showChilDialog.showTime = val
     }
     // 子组件是否打开,子组件传值
     const showChilDialog = reactive({
-      isOpen: false
+      isOpen: false,
+      showTime: 1
     })
     // 接受子组件发送的事件
     const closed = () => {
