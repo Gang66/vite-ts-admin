@@ -287,8 +287,17 @@
               </div>
               <div class="p-2">
                 <div>
-                  <span>{{ formdata.contant1 }}</span>
-                  <span class="text-red-400">{{ formdata.radio3 }}</span>
+                  <span
+                    v-for="(item, index) in formdata.contant1"
+                    key="index"
+                    >{{ item }}</span
+                  >
+                  <span
+                    class="text-red-400"
+                    v-for="(item, index) in formdata.radio3"
+                    key="index"
+                    >({{ item }})</span
+                  >
                 </div>
                 <br />
                 <div class="flex justify-end items-center">
@@ -475,6 +484,7 @@ export default defineComponent({
     }
     // 关闭dialog
     const closedOne = (val: any) => {
+      console.log(Object.prototype.toString.call(formdatademo.contant1))
       showNowdata.value = false
       val.resetFields()
       formdata.value = JSON.parse(JSON.stringify(formdatademo))
