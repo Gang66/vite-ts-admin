@@ -154,7 +154,11 @@
             </div>
           </div>
           <!-- 子组件Dialog -->
-          <childrenDialogVue :childata="showChilDialog" @closed="closed" />
+          <childrenDialogVue
+            :childata="showChilDialog"
+            @Success="Success($event)"
+            @closed="closed"
+          />
         </div>
         <el-form
           ref="ruleFormRef"
@@ -183,17 +187,17 @@
                 <div class="flex">
                   <span>工作饱和:</span>
                   <span
-                    v-if="Evaluation === '差'"
+                    v-if="formdata.radio1 === '差'"
                     class="w-6 h-6 bg-red-500 text-white rounded-md text-center"
                     >差</span
                   >
                   <span
-                    v-else-if="Evaluation === '中'"
+                    v-else-if="formdata.radio1 === '中'"
                     class="w-6 h-6 bg-orange-300 text-white rounded-md text-center"
                     >中</span
                   >
                   <span
-                    v-else-if="Evaluation === '好'"
+                    v-else-if="formdata.radio1 === '好'"
                     class="w-6 h-6 bg-green-500 text-white rounded-md text-center"
                     >好</span
                   >
@@ -201,17 +205,17 @@
                 <div class="flex">
                   <span>工作效率:</span>
                   <span
-                    v-if="Evaluation2 === '差'"
+                    v-if="formdata.radio1 === '差'"
                     class="w-6 h-6 bg-red-500 text-white rounded-md text-center"
                     >差</span
                   >
                   <span
-                    v-if="Evaluation2 === '中'"
+                    v-if="formdata.radio1 === '中'"
                     class="w-6 h-6 bg-orange-300 text-white rounded-md text-center"
                     >中</span
                   >
                   <span
-                    v-if="Evaluation2 === '好'"
+                    v-if="formdata.radio1 === '好'"
                     class="w-6 h-6 bg-green-500 text-white rounded-md text-center"
                     >好</span
                   >
@@ -219,17 +223,17 @@
                 <div class="flex">
                   <span>工作质量:</span>
                   <span
-                    v-if="Evaluation3 === '差'"
+                    v-if="formdata.radio2 === '差'"
                     class="w-6 h-6 bg-red-500 text-white rounded-md text-center"
                     >差</span
                   >
                   <span
-                    v-if="Evaluation3 === '中'"
+                    v-else-if="formdata.radio2 === '中'"
                     class="w-6 h-6 bg-orange-300 text-white rounded-md text-center"
                     >中</span
                   >
                   <span
-                    v-if="Evaluation3 === '好'"
+                    v-else-if="formdata.radio2 === '好'"
                     class="w-6 h-6 bg-green-500 text-white rounded-md text-center"
                     >好</span
                   >
@@ -282,7 +286,10 @@
                 </div>
               </div>
               <div class="p-2">
-                <div></div>
+                <div>
+                  <span>{{ formdata.contant1 }}</span>
+                  <span class="text-red-400">{{ formdata.radio3 }}</span>
+                </div>
                 <br />
                 <div class="flex justify-end items-center">
                   <span>工作质量：</span>
@@ -355,6 +362,28 @@
 import { defineComponent, SetupContext, ref, reactive } from 'vue'
 import childrenDialogVue from './childrenDialog.vue'
 import type { FormInstance, FormRules } from 'element-plus'
+// 控制子组件的弹窗
+const childrenDialog = () => {
+  // 打开子组件的dialog
+  const openchildDialog = (val: any) => {
+    showChilDialog.isOpen = true
+    showChilDialog.showTime = val
+  }
+  // 子组件是否打开,子组件传值
+  const showChilDialog = reactive({
+    isOpen: false,
+    showTime: 1
+  })
+  // 接受子组件发送的事件
+  const closed = () => {
+    showChilDialog.isOpen = false
+  }
+  return {
+    openchildDialog,
+    showChilDialog,
+    closed
+  }
+}
 export default defineComponent({
   name: '',
   components: {
@@ -367,52 +396,48 @@ export default defineComponent({
   },
   emits: ['close'],
   setup(prop, SetupContext) {
-    // 点击时间利用以及内容阐述的change事件
-    const SummarizeRadio = (val: any) => {
-      if (val === '好') {
-        Evaluation2.value = '好'
-      } else if (val === '中') {
-        Evaluation2.value = '中'
-      } else if (val === '差') {
-        Evaluation2.value = '差'
-      }
-    }
-    const SummarizeRadio1 = (val: any) => {
-      if (val === '好') {
-        Evaluation3.value = '好'
-      } else if (val === '中') {
-        Evaluation3.value = '中'
-      } else if (val === '差') {
-        Evaluation3.value = '差'
-      }
-    }
-    const fdf = ref()
-    fdf.value = [
-      { name: '好', v: 1 },
-      { name: '中', v: 2 },
-      { name: '差', v: 3 }
-    ]
-    const SummarizeRadio1dsd = (val: any) => {
-      let obj = fdf.value.find((x) => (x.v = val))
-      if (obj) {
-        return obj.name
-      } else {
-        return '-'
-      }
-    }
+    // const fdf = ref()
+    // fdf.value = [
+    //   { name: '好', v: 1 },
+    //   { name: '中', v: 2 },
+    //   { name: '差', v: 3 }
+    // ]
+    // const SummarizeRadio1dsd = (val: any) => {
+    //   let obj = fdf.value.find((x: any) => (x.v = val))
+    //   if (obj) {
+    //     return obj.name
+    //   } else {
+    //     return '-'
+    //   }
+    // }
 
     // 表单数据
-    const formdata = reactive({
+    const formdatademo = {
+      // 今日数据的时间段
+      start: 0,
+      end: 0,
+      // 成果转换内容
+      contant1: [],
+      // 成果转化单选框内容
+      radio3: [],
       // 时间利用及内容阐述的内容
       contant: '',
       // 时间利用及内容和参数的单选框
-      radio1: '中',
+      radio1: '差',
       radio2: '好',
       // 改进措施内容,
       Improve: '',
       // 明日计划内容
       plan: ''
-    })
+    }
+    const formdata = ref()
+    formdata.value = JSON.parse(JSON.stringify(formdatademo))
+    // 子组件点击成功传来的数据
+    const Success = (data: any) => {
+      formdata.value.contant1.push(data.contant1)
+      formdata.value.radio3.push(data.radio1)
+      // console.log(data)
+    }
     // 表单的ref
     const ruleFormRef = ref<FormInstance>()
     // 表单校验规则
@@ -439,10 +464,6 @@ export default defineComponent({
         }
       ]
     })
-    // 工作评价 差？ 好？ 中？
-    const Evaluation = ref('差')
-    const Evaluation2 = ref('中')
-    const Evaluation3 = ref('好')
     //   点击收起今日数据
     const showNowdata = ref(false)
     const putAway = () => {
@@ -452,41 +473,22 @@ export default defineComponent({
     const closes = () => {
       SetupContext.emit('close')
     }
-    // 打开子组件的dialog
-    const openchildDialog = (val: any) => {
-      showChilDialog.isOpen = true
-      showChilDialog.showTime = val
-    }
-    // 子组件是否打开,子组件传值
-    const showChilDialog = reactive({
-      isOpen: false,
-      showTime: 1
-    })
-    // 接受子组件发送的事件
-    const closed = () => {
-      showChilDialog.isOpen = false
-    }
     // 关闭dialog
     const closedOne = (val: any) => {
       showNowdata.value = false
       val.resetFields()
+      formdata.value = JSON.parse(JSON.stringify(formdatademo))
     }
     return {
+      ...childrenDialog(),
+      Success,
       ruleFormRef,
       rules,
       formdata,
-      SummarizeRadio1,
-      SummarizeRadio,
-      Evaluation3,
-      Evaluation2,
-      Evaluation,
       closedOne,
       closes,
       putAway,
-      showNowdata,
-      showChilDialog,
-      openchildDialog,
-      closed
+      showNowdata
     }
   }
 })

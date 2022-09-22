@@ -1,8 +1,8 @@
 <template>
-  <div class="chilDialog">
+  <div class="Project-components-childrenDialog">
     <el-dialog
       v-model="childata.isOpen"
-      width="400px "
+      width="25rem "
       @closed="closed(ruleFormRef)"
       @opened="opened(ruleFormRef)"
     >
@@ -72,9 +72,9 @@
               :size="formSize"
               status-icon
             >
-              <el-form-item prop="contant">
+              <el-form-item prop="diacontant">
                 <el-input
-                  v-model="data.contant"
+                  v-model="data.diacontant"
                   placeholder="请输入工作内容"
                 ></el-input></el-form-item
             ></el-form>
@@ -82,34 +82,37 @@
         </div>
       </div>
       <!-- 今日总结的内容 -->
-      <div class="p-4 w-full" v-if="childata.showTime > 10">
-        <div class="flex items-center">
-          <span>工作内容</span>
-          <span class="ml-4 textcss">
-            <el-form
-              ref="ruleFormRef"
-              :model="data"
-              :rules="rules"
-              :size="formSize"
-              status-icon
-            >
+      <el-form
+        ref="ruleFormRef"
+        :model="data"
+        :rules="rules"
+        :size="formSize"
+        status-icon
+        v-if="childata.showTime > 10"
+      >
+        <div class="p-4 w-full">
+          <div class="flex items-center">
+            <span>工作内容</span>
+            <span class="ml-4 textcss">
               <el-form-item prop="contant1">
                 <el-input type="textarea" v-model="data.contant1"> </el-input>
               </el-form-item>
-            </el-form>
-          </span>
+            </span>
+          </div>
+          <div class="flex items-center">
+            <span class="mb-4">自我评定</span>
+            <span class="selfAssessment">
+              <el-form-item prop="radio1">
+                <el-radio-group v-model="data.radio1" class="ml-4">
+                  <el-radio label="好" size="large">好</el-radio>
+                  <el-radio label="中" size="large">中</el-radio>
+                  <el-radio label="差" size="large">差</el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </span>
+          </div>
         </div>
-        <div>
-          <span>自我评定</span>
-          <span>
-            <el-radio-group v-model="radio1" class="ml-4">
-              <el-radio label="好" size="large">好</el-radio>
-              <el-radio label="中" size="large">中</el-radio>
-              <el-radio label="差" size="large">差</el-radio>
-            </el-radio-group></span
-          >
-        </div>
-      </div>
+      </el-form>
     </el-dialog>
   </div>
 </template>
@@ -124,7 +127,7 @@ export default defineComponent({
       type: Object
     }
   },
-  emits: ['closed'],
+  emits: ['closed', 'Success'],
   setup(prop, SetupContext) {
     //   点开今日数据后显示哪一个时间段 如：08:00
     const whenTime = ref('')
@@ -182,7 +185,7 @@ export default defineComponent({
     }
     const ruleFormRef = ref<FormInstance>()
     const rules = reactive<FormRules>({
-      contant: [
+      diacontant: [
         {
           required: true,
           message: '请输入备注',
@@ -195,23 +198,33 @@ export default defineComponent({
           message: '请输入工作内容',
           trigger: 'blur'
         }
-      ]
+      ],
+      radio1: [{ required: true, message: '请填写自我评定', trigger: 'blur' }]
     })
-    const radio1 = ref('')
     // 提交表单
     const Confirm = async (formEl: FormInstance | undefined) => {
       if (!formEl) return
       await formEl.validate((valid: any, fields: any) => {
-        if (valid && data.end > data.start) {
-          console.log('submit!')
-        } else {
-          if (data.end <= data.start) {
-            ElMessage.error({
-              message: '结束时间必须大于开始时间',
-              center: true
-            })
+        if (prop.childata.showTime < 10) {
+          if (valid && data.end > data.start) {
+            SetupContext.emit('Success', data)
+            close()
+          } else {
+            if (data.end <= data.start) {
+              ElMessage.error({
+                message: '结束时间必须大于开始时间',
+                center: true
+              })
+            }
+            console.log('error submit!', fields)
           }
-          console.log('error submit!', fields)
+        } else {
+          if (valid) {
+            SetupContext.emit('Success', data)
+            close()
+          } else {
+            console.log('error submit!', fields)
+          }
         }
       })
     }
@@ -219,8 +232,9 @@ export default defineComponent({
     const data = reactive({
       start: 0,
       end: 0,
-      contant: '',
-      contant1: ''
+      diacontant: '',
+      contant1: '',
+      radio1: ''
     })
     const closed = (val: any) => {
       data.start = 0
@@ -236,7 +250,6 @@ export default defineComponent({
       whenTime,
       close,
       data,
-      radio1,
       ruleFormRef,
       rules,
       closed,
@@ -248,23 +261,28 @@ export default defineComponent({
 })
 </script>
 <style lang="postcss" scoped>
-.chilDialog {
+.Project-components-childrenDialog {
+  .selfAssessment {
+    :deep(.el-form-item__error) {
+      margin-left: 1.25rem;
+    }
+  }
   .textcss {
     :deep(.el-textarea__inner) {
-      width: 250px;
+      width: 15.625rem;
     }
   }
   .contants {
     :deep(.el-input__inner) {
-      width: 200px;
+      width: 12.5rem;
     }
   }
   :deep(.el-input__inner) {
-    width: 60px;
-    border-top-width: 0px;
-    border-left-width: 0px;
-    border-right-width: 0px;
-    border-bottom-width: 1px;
+    width: 3.75rem;
+    border-top-width: 0rem;
+    border-left-width: 0rem;
+    border-right-width: 0rem;
+    border-bottom-width: 0.0625rem;
   }
   :deep(.el-dialog__body) {
     padding: 0;
