@@ -7,8 +7,6 @@
     @closed="closeDialog(ruleFormRef)"
     @open="openDialog"
   >
-    <!-- {{ data.userInfo }} -->
-    {{ fromInfo }}
     <!-- 培训调研 -->
     <el-tabs v-model="fromInfo.number">
       <el-tab-pane label="培训调研" name="1">
@@ -180,8 +178,8 @@ const one = (data: any) => {
 
   const inndata = ref()
   inndata.value = JSON.parse(JSON.stringify(inndatademo))
-
-  // inndata.value = data.fromInfo.value.form
+  console.log(data.fromInfo)
+  inndata.value = data.fromInfo.value.form
   // 关闭dialog
   const closeDialog = (formEl: FormInstance | undefined) => {
     data.SetupContext.emit('closed')
@@ -223,6 +221,7 @@ export default defineComponent({
   setup(props, SetupContext) {
     const fromInfo = ref()
     fromInfo.value = props.data.userInfo
+
     const openDialog = () => {
       fromInfo.value = props.data.userInfo
       // console.log(fromInfo.value.form)

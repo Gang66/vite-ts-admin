@@ -331,7 +331,25 @@ export default defineComponent({
     const innovationData = reactive({
       dialogVisible: false,
       userInfo: {
-        number: '1'
+        number: '',
+        date: '',
+        type: '',
+        name: '',
+        form: {
+          // 需要什么样培训的内容
+          needs: '',
+          // 需要什么样的培训方式
+          trainingMethod: '',
+          // 对培训时间等的建议
+          trainingSuggest: '',
+          // 意见培训
+          opinionTraining: '',
+          // 创新举措
+          innovativeInitiatives: '',
+          // 其他建议
+          otherSuggestion: '',
+          checked: false
+        }
       }
     })
     return { innovationData, rightbtn, closed, activeName }

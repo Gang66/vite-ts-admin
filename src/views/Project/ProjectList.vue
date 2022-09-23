@@ -32,8 +32,9 @@
             <el-table-column prop="content" label="处理内容">
               <template #default="{ row }">
                 <el-button type="text" @click="hasDialog(row)">
-                  {{ row.form.needs }}</el-button
-                >
+                  <!-- {{ row.form }} -->
+                  {{ row.form.needs }}
+                </el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -53,7 +54,11 @@
           />
         </div>
       </el-card>
-      <innovationDialog :data="innovationData" @closed="closed" />
+      <innovationDialog
+        :data="innovationData"
+        @closed="closed"
+        v-if="innovationData.isShow"
+      />
     </div>
     <!-- =右侧所有内容 -->
     <div class="mt-10 ml-3 w-1/5 rounded-md"><rightDialog /></div>
@@ -74,10 +79,12 @@ const innTable = () => {
   // 点击打开dialog
   const openHrDialog = () => {
     innovationData.userInfo.number = '1'
+    innovationData.isShow = true
     innovationData.dialogVisible = true
   }
   // 监听关闭按钮
   const closed = () => {
+    innovationData.isShow = false
     innovationData.dialogVisible = false
   }
   // 分页器
@@ -92,8 +99,27 @@ const innTable = () => {
 
   const innovationData = reactive({
     dialogVisible: false,
+    isShow: false,
     userInfo: {
-      number: '1'
+      number: '1',
+      date: '',
+      type: '',
+      name: '',
+      form: {
+        // 需要什么样培训的内容
+        needs: '',
+        // 需要什么样的培训方式
+        trainingMethod: '',
+        // 对培训时间等的建议
+        trainingSuggest: '',
+        // 意见培训
+        opinionTraining: '',
+        // 创新举措
+        innovativeInitiatives: '',
+        // 其他建议
+        otherSuggestion: '',
+        checked: false
+      }
     }
   })
   const tableData = [
@@ -103,18 +129,18 @@ const innTable = () => {
       name: '冯佳丽',
       form: {
         // 需要什么样培训的内容
-        needs: '111某某某123',
+        needs: '123',
         // 需要什么样的培训方式
-        trainingMethod: '111某某某某某某',
+        trainingMethod: '',
         // 对培训时间等的建议
-        trainingSuggest: '111某某某某某某1',
+        trainingSuggest: '',
         // 意见培训
-        opinionTraining: '111',
+        opinionTraining: '',
         // 创新举措
-        innovativeInitiatives: '112',
+        innovativeInitiatives: '',
         // 其他建议
         otherSuggestion: '1113',
-        checked: true
+        checked: false
       },
 
       number: '4'
@@ -191,10 +217,9 @@ const innTable = () => {
     }
   ]
   const hasDialog = (row: any) => {
-    innovationData.dialogVisible = true
-    // console.log(row)
     innovationData.userInfo = row
-    // console.log(innovationData.userInfo)
+    innovationData.isShow = true
+    innovationData.dialogVisible = true
   }
   return {
     rightbtn,

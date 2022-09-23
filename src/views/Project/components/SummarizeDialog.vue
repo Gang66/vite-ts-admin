@@ -41,16 +41,29 @@
                 <div class="ml-16">工作记录及事项</div>
               </div>
               <div
-                class="flex border-solid border-2 border-gray-100 rounded-md h-10 mb-1"
+                class="flex border-solid border-2 border-gray-100 rounded-md mb-1"
               >
                 <div class="w-1/4 bg-gray-100 flex items-center p-1">
                   <span> 08:00~09:00</span>
                 </div>
                 <div class="w-3/4 flex justify-between items-center">
-                  <span></span>
-                  <span class="mr-1" @click="openchildDialog(1)">
-                    <img src="../../../assets/img/add.png" alt="" class="w-4"
-                  /></span>
+                  <!-- 测试内容 -->
+                  <div>
+                    <div v-for="(item, index) in formdata.end" :key="index">
+                      <span
+                        >08:{{ formdata.start[index] }}~08:{{
+                          formdata.end[index]
+                        }}:
+                      </span>
+                      <span>{{ formdata.time8[index] }}</span>
+                    </div>
+                  </div>
+                  <!-- 按钮 -->
+                  <div class="flex items-center">
+                    <span class="mr-1" @click="openchildDialog(1)">
+                      <img src="../../../assets/img/add.png" alt="" class="w-4"
+                    /></span>
+                  </div>
                 </div>
               </div>
               <div
@@ -187,6 +200,10 @@
                 <div class="flex">
                   <span>工作饱和:</span>
                   <span
+                    class="w-6 h-6 bg-red-500 text-white rounded-md text-center"
+                    >差</span
+                  >
+                  <!-- <span
                     v-if="formdata.radio1 === '差'"
                     class="w-6 h-6 bg-red-500 text-white rounded-md text-center"
                     >差</span
@@ -200,7 +217,7 @@
                     v-else-if="formdata.radio1 === '好'"
                     class="w-6 h-6 bg-green-500 text-white rounded-md text-center"
                     >好</span
-                  >
+                  > -->
                 </div>
                 <div class="flex">
                   <span>工作效率:</span>
@@ -286,17 +303,17 @@
                 </div>
               </div>
               <div class="p-2">
-                <div>
+                <div v-for="(item, index) in formdata.contant1" key="index">
+                  <span>
+                    {{ formdata.contant1[index] }}
+                  </span>
                   <span
-                    v-for="(item, index) in formdata.contant1"
-                    key="index"
-                    >{{ item }}</span
-                  >
-                  <span
-                    class="text-red-400"
-                    v-for="(item, index) in formdata.radio3"
-                    key="index"
-                    >({{ item }})</span
+                    :class="{
+                      'text-red-400': formdata.radio3[index] === '差',
+                      'text-yellow-400': formdata.radio3[index] === '中',
+                      'text-green-400': formdata.radio3[index] === '好'
+                    }"
+                    >({{ formdata.radio3[index] }})</span
                   >
                 </div>
                 <br />
@@ -423,8 +440,9 @@ export default defineComponent({
     // 表单数据
     const formdatademo = {
       // 今日数据的时间段
-      start: 0,
-      end: 0,
+      start: [],
+      end: [],
+      time8: [],
       // 成果转换内容
       contant1: [],
       // 成果转化单选框内容
@@ -443,8 +461,22 @@ export default defineComponent({
     formdata.value = JSON.parse(JSON.stringify(formdatademo))
     // 子组件点击成功传来的数据
     const Success = (data: any) => {
-      formdata.value.contant1.push(data.contant1)
-      formdata.value.radio3.push(data.radio1)
+      if (data.contant1 !== '') {
+        formdata.value.contant1.push(data.contant1)
+        formdata.value.radio3.push(data.radio1)
+      } else {
+        console.log(data)
+
+        if (Number(data.start) < 10 || data.start === '') {
+          data.start = '0' + data.start
+        }
+        if (Number(data.end) < 10) {
+          data.end = '0' + data.end
+        }
+        formdata.value.start.push(data.start)
+        formdata.value.end.push(data.end)
+        formdata.value.time8.push(data.diacontant)
+      }
       // console.log(data)
     }
     // 表单的ref

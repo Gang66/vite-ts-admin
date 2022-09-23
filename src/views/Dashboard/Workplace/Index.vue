@@ -1,49 +1,14 @@
 <template>
-  <div>
-    <!-- <div class="h-20"></div>
-  <div class="overflow-auto h-32">
-    <span class="block " v-for="item in 100">123</span>
-  </div>
-  <div class="bg-red-100 overflow-hidden h-32 w-200 ...">Lorem ipsum dolor sit amet...</div>
-  <p class="uppercase ...">The quick brown fox ...</p> -->
+  <div class="Dashboard-workplace-index">
     <div class="m-8">
       <el-button @click="openHrDialog" type="success" class="m-2"
         >HR测评表</el-button
       >
-
-      <el-button @click="openCeshiDialog" type="success" class="m-2"
-        >HR测评表33</el-button
-      >
     </div>
     <HRdialog :data="hrDialogData" @close="closeHrDialog($event)" />
-    <CeshiDialog :data="ceshiDialogData" @close="closeCeshiDialog($event)" />
+    <hr />
 
-    <el-form :model="form">
-      <el-row>
-        <el-col :span="12">
-          <el-form-item label="234">
-            <!-- <div class="contant"> -->
-            <el-input>
-              <template #suffix>
-                <span>11111111元</span>
-              </template>
-            </el-input>
-            <!-- </div> -->
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="234">
-            <!-- <div class="contant"> -->
-            <el-input>
-              <template #suffix>
-                <span>11111111元</span>
-              </template>
-            </el-input>
-            <!-- </div> -->
-          </el-form-item>
-        </el-col>
-      </el-row>
-    </el-form>
+    <Earch />
   </div>
 </template>
 <script lang="ts">
@@ -106,12 +71,14 @@ const ceshiDialog = () => {
 import { ref } from '@vue/reactivity'
 import HRdialog from './_Components/HRdialog.vue'
 import CeshiDialog from './_Components/ceshiDialog.vue'
+import Earch from './_Components/Earch.vue'
 
 name: 'Workplace'
 export default {
   components: {
     HRdialog,
-    CeshiDialog
+    CeshiDialog,
+    Earch
   },
   setup() {
     const isShowDialog = ref(false)
