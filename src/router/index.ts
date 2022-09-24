@@ -22,13 +22,13 @@ export const allowRouter:Array<IMenubarList> = [
                 path: '/Dashboard/Workplace',
                 component: Components['Workplace'],
                 meta: { title: '工作台', icon: 'el-icon-tools' }
+            },
+            {
+                name: 'Welcome',
+                path: '/Dashboard/Welcome',
+                component: Components['Welcome'],
+                meta: { title: '欢迎页', icon: 'el-icon-tools' }
             }
-            // {
-            //     name: 'Welcome',
-            //     path: '/Dashboard/Welcome',
-            //     component: Components['Welcome'],
-            //     meta: { title: '欢迎页', icon: 'el-icon-tools' }
-            // }
         ]
     },
     {

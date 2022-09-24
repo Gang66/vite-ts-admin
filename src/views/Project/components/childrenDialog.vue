@@ -13,7 +13,7 @@
         <h2 class="text-white">添加工作内容</h2>
         <div class="mr-1 flex items-center">
           <div>
-            <el-button size="mini" type="primary" @click="Confirm(ruleFormRef)"
+            <el-button size="small" type="primary" @click="Confirm(ruleFormRef)"
               >提交</el-button
             >
           </div>
@@ -65,13 +65,7 @@
         <div class="w-200 flex items-center mt-6">
           <span>工作内容</span>
           <span class="ml-1 contants">
-            <el-form
-              ref="ruleFormRef"
-              :model="data"
-              :rules="rules"
-              :size="formSize"
-              status-icon
-            >
+            <el-form ref="ruleFormRef" :model="data" :rules="rules" status-icon>
               <el-form-item prop="diacontant">
                 <el-input
                   v-model="data.diacontant"
@@ -86,7 +80,6 @@
         ref="ruleFormRef"
         :model="data"
         :rules="rules"
-        :size="formSize"
         status-icon
         v-if="childata.showTime > 10"
       >
@@ -127,7 +120,7 @@ export default defineComponent({
       type: Object
     }
   },
-  emits: ['closed', 'Success'],
+  emits: ['closed', 'success'],
   setup(prop, SetupContext) {
     //   点开今日数据后显示哪一个时间段 如：08:00
     const whenTime = ref('')
@@ -207,7 +200,7 @@ export default defineComponent({
       await formEl.validate((valid: any, fields: any) => {
         if (prop.childata.showTime < 10) {
           if (valid && data.end > data.start) {
-            SetupContext.emit('Success', data)
+            SetupContext.emit('success', data)
             close()
           } else {
             if (data.end <= data.start) {
@@ -220,7 +213,7 @@ export default defineComponent({
           }
         } else {
           if (valid) {
-            SetupContext.emit('Success', data)
+            SetupContext.emit('success', data)
             close()
           } else {
             console.log('error submit!', fields)

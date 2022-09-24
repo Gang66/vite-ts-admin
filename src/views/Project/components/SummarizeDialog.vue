@@ -41,32 +41,33 @@
                 <div class="ml-16">工作记录及事项</div>
               </div>
               <div
+                v-for="(item, index) in AllTime.left"
+                :key-by="index"
                 class="flex border-solid border-2 border-gray-100 rounded-md mb-1"
               >
-                <div class="w-1/4 bg-gray-100 flex items-center p-1">
-                  <span> 08:00~09:00</span>
+                <div class="w-1/4 bg-gray-100 flex items-center p-2">
+                  <span> {{ item }}</span>
                 </div>
                 <div class="w-3/4 flex justify-between items-center">
                   <!-- 测试内容 -->
                   <div>
-                    <div v-for="(item, index) in formdata.end" :key="index">
-                      <span
-                        >08:{{ formdata.start[index] }}~08:{{
-                          formdata.end[index]
-                        }}:
-                      </span>
-                      <span>{{ formdata.time8[index] }}</span>
+                    <div
+                      v-for="(item, index) in formdata.todyData"
+                      :key="index"
+                    >
+                      <span>{{ item.start }}{{ item.end }} </span>
+                      <span>{{ item.time8 }}</span>
                     </div>
                   </div>
                   <!-- 按钮 -->
                   <div class="flex items-center">
-                    <span class="mr-1" @click="openchildDialog(1)">
+                    <span class="mr-1" @click="openchildDialog(index)">
                       <img src="../../../assets/img/add.png" alt="" class="w-4"
                     /></span>
                   </div>
                 </div>
               </div>
-              <div
+              <!-- <div
                 class="flex border-solid border-2 border-gray-100 rounded-md h-10 mb-1"
               >
                 <div class="w-1/4 bg-gray-100 flex items-center p-1">
@@ -104,28 +105,29 @@
                     <img src="../../../assets/img/add.png" alt="" class="w-4"
                   /></span>
                 </div>
-              </div>
+              </div> -->
             </div>
             <!-- 右侧时间 -->
             <div class="flex-1 ml-2">
               <div class="flex">
-                <div>上午时间</div>
+                <div>下午时间</div>
                 <div class="ml-16">工作记录及事项</div>
               </div>
               <div
-                class="flex border-solid border-2 border-gray-100 rounded-md h-10 mb-1"
+                v-for="(item, index) in AllTime.right"
+                class="flex border-solid border-2 border-gray-100 rounded-md mb-1"
               >
-                <div class="w-1/4 bg-gray-100 flex items-center p-1">
-                  <span> 13:00~14:00</span>
+                <div class="w-1/4 bg-gray-100 flex items-center p-2">
+                  <span> {{ item }}</span>
                 </div>
                 <div class="w-3/4 flex justify-between items-center">
                   <span></span>
-                  <span class="mr-1" @click="openchildDialog(5)">
+                  <span class="mr-1" @click="openchildDialog(index + 5)">
                     <img src="../../../assets/img/add.png" alt="" class="w-4"
                   /></span>
                 </div>
               </div>
-              <div
+              <!-- <div
                 class="flex border-solid border-2 border-gray-100 rounded-md h-10 mb-1"
               >
                 <div class="w-1/4 bg-gray-100 flex items-center p-1">
@@ -163,23 +165,17 @@
                     <img src="../../../assets/img/add.png" alt="" class="w-4"
                   /></span>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
           <!-- 子组件Dialog -->
           <childrenDialogVue
             :childata="showChilDialog"
-            @Success="Success($event)"
+            @success="success($event)"
             @closed="closed"
           />
         </div>
-        <el-form
-          ref="ruleFormRef"
-          :model="formdata"
-          :rules="rules"
-          :size="formSize"
-          status-icon
-        >
+        <el-form ref="ruleFormRef" :model="formdata" :rules="rules" status-icon>
           <!-- 今日总结 -->
           <div class="NoInput">
             <div class="flex justify-between items-center w-full">
@@ -276,14 +272,16 @@
                 </div>
                 <div class="flex justify-end items-center">
                   <span>工作效率：</span>
-                  <el-radio-group
-                    v-model="formdata.radio1"
-                    class="ml-4"
-                    @change="SummarizeRadio"
-                  >
-                    <el-radio label="好" size="large">好</el-radio>
-                    <el-radio label="中" size="large">中</el-radio>
-                    <el-radio label="差" size="large">差</el-radio>
+                  <el-radio-group v-model="formdata.radio1" class="ml-4">
+                    <el-radio
+                      v-for="(item, index) in fdf"
+                      :key="index"
+                      :label="item.name"
+                      size="large"
+                      >{{ item.name }}</el-radio
+                    >
+                    <!-- <el-radio label="中" size="large">中</el-radio>
+                    <el-radio label="差" size="large">差</el-radio> -->
                   </el-radio-group>
                 </div>
               </div>
@@ -305,7 +303,7 @@
               <div class="p-2">
                 <div v-for="(item, index) in formdata.contant1" key="index">
                   <span>
-                    {{ formdata.contant1[index] }}
+                    {{ item }}
                   </span>
                   <span
                     :class="{
@@ -319,14 +317,16 @@
                 <br />
                 <div class="flex justify-end items-center">
                   <span>工作质量：</span>
-                  <el-radio-group
-                    v-model="formdata.radio2"
-                    class="ml-4"
-                    @change="SummarizeRadio1"
-                  >
-                    <el-radio label="好" size="large">好</el-radio>
-                    <el-radio label="中" size="large">中</el-radio>
-                    <el-radio label="差" size="large">差</el-radio>
+                  <el-radio-group v-model="formdata.radio2" class="ml-4">
+                    <el-radio
+                      v-for="(item, index) in fdf"
+                      :key="index"
+                      :label="item.name"
+                      size="large"
+                      >{{ item.name }}</el-radio
+                    >
+                    <!-- <el-radio label="中" size="large">中</el-radio>
+                    <el-radio label="差" size="large">差</el-radio> -->
                   </el-radio-group>
                 </div>
               </div>
@@ -392,6 +392,7 @@ import type { FormInstance, FormRules } from 'element-plus'
 const childrenDialog = () => {
   // 打开子组件的dialog
   const openchildDialog = (val: any) => {
+    console.log(val)
     showChilDialog.isOpen = true
     showChilDialog.showTime = val
   }
@@ -422,12 +423,18 @@ export default defineComponent({
   },
   emits: ['close'],
   setup(prop, SetupContext) {
-    // const fdf = ref()
-    // fdf.value = [
-    //   { name: '好', v: 1 },
-    //   { name: '中', v: 2 },
-    //   { name: '差', v: 3 }
-    // ]
+    // 渲染今日数据左侧的时间
+    const AllTime = reactive({
+      left: ['08:00-09:00', '09:00-10:00', '10:00-11:00', '11:00-12:00'],
+      right: ['13:00-14:00', '14:00-15:00', '15:00-16:00', '16:00-17:00']
+    })
+    // 渲染单选按钮
+    const fdf = ref()
+    fdf.value = [
+      { name: '好', v: 1 },
+      { name: '中', v: 2 },
+      { name: '差', v: 3 }
+    ]
     // const SummarizeRadio1dsd = (val: any) => {
     //   let obj = fdf.value.find((x: any) => (x.v = val))
     //   if (obj) {
@@ -440,9 +447,7 @@ export default defineComponent({
     // 表单数据
     const formdatademo = {
       // 今日数据的时间段
-      start: [],
-      end: [],
-      time8: [],
+      todyData: [{ start: '', end: '', time8: '' }],
       // 成果转换内容
       contant1: [],
       // 成果转化单选框内容
@@ -460,7 +465,7 @@ export default defineComponent({
     const formdata = ref()
     formdata.value = JSON.parse(JSON.stringify(formdatademo))
     // 子组件点击成功传来的数据
-    const Success = (data: any) => {
+    const success = (data: any) => {
       if (data.contant1 !== '') {
         formdata.value.contant1.push(data.contant1)
         formdata.value.radio3.push(data.radio1)
@@ -473,11 +478,15 @@ export default defineComponent({
         if (Number(data.end) < 10) {
           data.end = '0' + data.end
         }
-        formdata.value.start.push(data.start)
-        formdata.value.end.push(data.end)
-        formdata.value.time8.push(data.diacontant)
+        // formdata.value.todyData.start.push(data.start)
+        formdata.value.todyData.push({
+          start: `08:${data.start} ~`,
+          end: `08:${data.end} :`,
+          time8: data.diacontant
+        })
+        // formdata.value.todyData.end.push(data.end)
+        // formdata.value.todyData.time8.push(data.diacontant)
       }
-      // console.log(data)
     }
     // 表单的ref
     const ruleFormRef = ref<FormInstance>()
@@ -523,7 +532,9 @@ export default defineComponent({
     }
     return {
       ...childrenDialog(),
-      Success,
+      AllTime,
+      fdf,
+      success,
       ruleFormRef,
       rules,
       formdata,

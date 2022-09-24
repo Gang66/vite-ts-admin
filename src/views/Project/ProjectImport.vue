@@ -64,13 +64,8 @@
             v-model:currentPage="currentPage4"
             v-model:page-size="pageSize4"
             :page-sizes="[5, 10, 20, 30]"
-            :small="small"
-            :disabled="disabled"
-            :background="background"
             layout="total, sizes, prev, pager, next, jumper"
             :total="tableData1.length"
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
           />
         </div>
         <SummarizeDialogVue :data="SummarizeData" @close="close" />
