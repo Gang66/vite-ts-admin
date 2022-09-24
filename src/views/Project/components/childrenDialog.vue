@@ -125,23 +125,23 @@ export default defineComponent({
     //   点开今日数据后显示哪一个时间段 如：08:00
     const whenTime = ref('')
     const opened = () => {
-      if (prop.childata.showTime === 1) {
+      if (prop.childata.showTime === 0) {
         whenTime.value = '08时'
-      } else if (prop.childata.showTime === 2) {
+      } else if (prop.childata.showTime === 1) {
         whenTime.value = '09时'
-      } else if (prop.childata.showTime === 3) {
+      } else if (prop.childata.showTime === 2) {
         whenTime.value = '10时'
-      } else if (prop.childata.showTime === 4) {
+      } else if (prop.childata.showTime === 3) {
         whenTime.value = '11时'
-      } else if (prop.childata.showTime === 5) {
+      } else if (prop.childata.showTime === 4) {
         whenTime.value = '13时'
-      } else if (prop.childata.showTime === 6) {
+      } else if (prop.childata.showTime === 5) {
         whenTime.value = '14时'
-      } else if (prop.childata.showTime === 7) {
+      } else if (prop.childata.showTime === 6) {
         whenTime.value = '15时'
-      } else if (prop.childata.showTime === 8) {
+      } else if (prop.childata.showTime === 7) {
         whenTime.value = '16时'
-      } else if (prop.childata.showTime === 9) {
+      } else if (prop.childata.showTime === 8) {
         whenTime.value = '17时'
       }
     }

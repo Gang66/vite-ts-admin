@@ -46,17 +46,31 @@
             style="width: 100%"
             :header-cell-style="{ background: '#4372e3', color: '#fff' }"
           >
-            <el-table-column prop="date" label="序号" width="100" />
-            <el-table-column prop="name" label="日期" width="100" />
-            <el-table-column prop="address" label="部门" width="180" />
-            <el-table-column prop="address" label="姓名" width="100" />
-            <el-table-column prop="address" label="总结类型" width="100" />
-            <el-table-column prop="address" label="总结状态" width="100" />
-            <el-table-column prop="address" label="饱和度" width="100" />
-            <el-table-column prop="address" label="工作自评效率" width="100" />
-            <el-table-column prop="address" label="质量" width="100" />
-            <el-table-column prop="address" label="审批状态" width="100" />
-            <el-table-column prop="address" label="操作" width="100" />
+            <el-table-column type="index" label="序号" width="100" />
+            <el-table-column prop="date" label="日期" width="110" />
+            <el-table-column prop="department" label="部门" width="170" />
+            <el-table-column prop="name" label="姓名" width="100" />
+            <el-table-column prop="type" label="总结类型" width="100" />
+            <el-table-column prop="state" label="总结状态" width="100" />
+            <el-table-column prop="saturation" label="饱和度" width="100" />
+            <el-table-column
+              prop="efficiency"
+              label="工作自评效率"
+              width="100"
+            />
+            <el-table-column prop="quality" label="质量" width="100" />
+            <el-table-column
+              prop="ApprovalStatus"
+              label="审批状态"
+              width="100"
+            />
+            <el-table-column label="操作" width="100">
+              <template #default="{ row }">
+                <el-button type="text" @click="SummarizeDialog(row)"
+                  >审阅</el-button
+                >
+              </template>
+            </el-table-column>
           </el-table>
         </div>
         <div class="flex justify-end">
@@ -109,30 +123,55 @@ export default defineComponent({
         pageSize4: 10
       }
     })
+    // table表单的数据
     const tableData1 = [
       {
-        date: '2016-05-03',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles'
+        date: '2022-09-24',
+        name: '系统管理员',
+        department: '集团总部',
+        type: '日总结',
+        state: '正式期',
+        saturation: '好',
+        efficiency: '好',
+        quality: '好',
+        ApprovalStatus: '未审阅'
       },
       {
-        date: '2016-05-02',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles'
+        date: '2022-09-24',
+        name: '系统管理员',
+        department: '集团总部',
+        type: '日总结',
+        state: '正式期',
+        saturation: '好',
+        efficiency: '好',
+        quality: '好',
+        ApprovalStatus: '未审阅'
       },
       {
-        date: '2016-05-04',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles'
+        date: '2022-09-24',
+        name: '系统管理员',
+        type: '日总结',
+        department: '集团总部',
+        state: '正式期',
+        saturation: '好',
+        efficiency: '好',
+        quality: '好',
+        ApprovalStatus: '未审阅'
       },
       {
-        date: '2016-05-01',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles'
+        date: '2022-09-24',
+        name: '系统管理员',
+        type: '日总结',
+        department: '集团总部',
+        state: '正式期',
+        saturation: '好',
+        efficiency: '好',
+        quality: '好',
+        ApprovalStatus: '未审阅'
       }
     ]
-    const currentIndex = ref('1')
     // 分页
+    const currentIndex = ref('1')
     const currentPage4 = ref(1)
     const pageSize4 = ref(5)
 

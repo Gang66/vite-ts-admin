@@ -122,7 +122,7 @@
                 </div>
                 <div class="w-3/4 flex justify-between items-center">
                   <span></span>
-                  <span class="mr-1" @click="openchildDialog(index + 5)">
+                  <span class="mr-1" @click="openchildDialog(index + 4)">
                     <img src="../../../assets/img/add.png" alt="" class="w-4"
                   /></span>
                 </div>
@@ -445,6 +445,9 @@ export default defineComponent({
     // }
 
     // 表单数据
+    /**
+     * 表单里的所有内容
+     */
     const formdatademo = {
       // 今日数据的时间段
       todyData: [{ start: '', end: '', time8: '' }],
