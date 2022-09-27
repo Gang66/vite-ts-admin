@@ -1,6 +1,6 @@
 <template>
   <div class="project-project-import flex">
-    <div class="mt-10 w-3/4">
+    <div class="mt-5 w-3/4">
       <!-- 头部 -->
       <commonHeaderVue />
       <!-- tab栏切换 -->
@@ -85,7 +85,9 @@
         <SummarizeDialogVue :data="SummarizeData" @close="close" />
       </el-card>
     </div>
-    <div class="mt-10 ml-3 w-1/5 rounded-md"><rightDialog /></div>
+    <div class="mt-5 ml-3 w-1/5 rounded-md">
+      <rightDialog />
+    </div>
   </div>
 </template>
 

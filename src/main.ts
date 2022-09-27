@@ -13,6 +13,7 @@ import 'nprogress/nprogress.css'
 import 'virtual:svg-icons-register'
 import SvgIcon from '/@/components/SvnIcon/index.vue'
 import * as ElIcons from '@element-plus/icons-vue'
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
 
 
@@ -28,5 +29,5 @@ const ElIconsData = ElIcons as unknown as Array<() => Promise<typeof import('*.v
 for (const iconName in ElIconsData) {
     app.component(`ElIcon${iconName}`, ElIconsData[iconName])
 }
-  
+ 
 app.mount('#app')

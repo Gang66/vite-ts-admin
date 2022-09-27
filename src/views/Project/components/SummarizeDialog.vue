@@ -51,12 +51,9 @@
                 <div class="w-3/4 flex justify-between items-center">
                   <!-- 测试内容 -->
                   <div>
-                    <div
-                      v-for="(item, index) in formdata.todyData"
-                      :key="index"
-                    >
-                      <span>{{ item.start }}{{ item.end }} </span>
-                      <span>{{ item.time8 }}</span>
+                    <div>
+                      <span>{{ item.time1 }} </span>
+                      <span>{{ item.contant }}</span>
                     </div>
                   </div>
                   <!-- 按钮 -->
@@ -423,7 +420,7 @@ export default defineComponent({
   },
   emits: ['close'],
   setup(prop, SetupContext) {
-    // 渲染今日数据左侧的时间
+    // 渲染今日数据两侧的时间
     const AllTime = reactive({
       left: ['08:00-09:00', '09:00-10:00', '10:00-11:00', '11:00-12:00'],
       right: ['13:00-14:00', '14:00-15:00', '15:00-16:00', '16:00-17:00']
@@ -473,22 +470,18 @@ export default defineComponent({
         formdata.value.contant1.push(data.contant1)
         formdata.value.radio3.push(data.radio1)
       } else {
-        console.log(data)
-
+        // console.log(data)
         if (Number(data.start) < 10 || data.start === '') {
           data.start = '0' + data.start
         }
         if (Number(data.end) < 10) {
           data.end = '0' + data.end
         }
-        // formdata.value.todyData.start.push(data.start)
         formdata.value.todyData.push({
           start: `08:${data.start} ~`,
           end: `08:${data.end} :`,
           time8: data.diacontant
         })
-        // formdata.value.todyData.end.push(data.end)
-        // formdata.value.todyData.time8.push(data.diacontant)
       }
     }
     // 表单的ref

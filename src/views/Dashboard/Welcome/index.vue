@@ -313,8 +313,13 @@ export default defineComponent({
   }
 })
 </script>
-<style>
-.el-table__header {
-  background-color: red;
+<style lang="postcss" scoped>
+.Dashboard-Welcome-index {
+  .rightTable {
+    :deep(.el-table__header) {
+      background-color: #000;
+    }
+  }
 }
 </style>
+>
