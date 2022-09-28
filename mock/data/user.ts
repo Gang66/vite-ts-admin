@@ -54,7 +54,8 @@ export const role_route = [
     { roleName: 'test', id: 50, permission: ['update'] }
 ]
 
-export const route:Array<IMenubarList> = [
+export const route: Array<IMenubarList> = [
+    
     {
         id: 2,
         parentId: 0,
@@ -188,5 +189,6 @@ export const route:Array<IMenubarList> = [
         path: '/Permission/Directive',
         component: 'Directive',
         meta: { title: '指令管理', icon: 'el-icon-goods' }
-    }
+    },
+  
 ]

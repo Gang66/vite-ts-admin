@@ -53,6 +53,34 @@ export const allowRouter:Array<IMenubarList> = [
         ]
     },
     {
+        name: 'assetsa',
+        path: '/assetsa',
+        meta: { title: '资产管理', icon: 'el-icon-eleme' },
+        component: Components.Layout,
+        redirect: '/assetsa/AssetProcurement',
+        children: [
+            {
+                name: 'AssetProcurement',
+                path: '/assetsa/AssetProcurement',
+                component: Components['AssetProcurement'],
+                meta: { title: '资产采购', icon: 'el-icon-tools' }
+            },
+            {
+                name: 'AssetRecords',
+                path: '/assetsa/AssetRecords',
+                component: Components['AssetRecords'],
+                meta: { title: '资产记录', icon: 'el-icon-tools' }
+            },
+            {
+                name: 'AssetInventory',
+                path: '/assetsa/AssetInventory',
+                component: Components['AssetInventory'],
+                meta: { title: '资产库存', icon: 'el-icon-tools' }
+            },
+           
+        ]
+    },
+    {
         name: 'RedirectPage',
         path: '/redirect',
         component: Components['Layout'],

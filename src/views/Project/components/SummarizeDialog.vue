@@ -42,18 +42,18 @@
               </div>
               <div
                 v-for="(item, index) in AllTime.left"
-                :key-by="index"
+                :key="index"
                 class="flex border-solid border-2 border-gray-100 rounded-md mb-1"
               >
                 <div class="w-1/4 bg-gray-100 flex items-center p-2">
-                  <span> {{ item }}</span>
+                  <span> {{ item.dates }}</span>
                 </div>
                 <div class="w-3/4 flex justify-between items-center">
                   <!-- 测试内容 -->
                   <div>
-                    <div>
-                      <span>{{ item.time1 }} </span>
-                      <span>{{ item.contant }}</span>
+                    <div v-for="(child, index) in item.contant" :key="index">
+                      <span>{{ child.start }} {{ child.end }}</span>
+                      <span>{{ child.time8 }}</span>
                     </div>
                   </div>
                   <!-- 按钮 -->
@@ -64,45 +64,6 @@
                   </div>
                 </div>
               </div>
-              <!-- <div
-                class="flex border-solid border-2 border-gray-100 rounded-md h-10 mb-1"
-              >
-                <div class="w-1/4 bg-gray-100 flex items-center p-1">
-                  <span> 09:00~10:00</span>
-                </div>
-                <div class="w-3/4 flex justify-between items-center">
-                  <span></span>
-                  <span class="mr-1" @click="openchildDialog(2)">
-                    <img src="../../../assets/img/add.png" alt="" class="w-4"
-                  /></span>
-                </div>
-              </div>
-              <div
-                class="flex border-solid border-2 border-gray-100 rounded-md h-10 mb-1"
-              >
-                <div class="w-1/4 bg-gray-100 flex items-center p-1">
-                  <span> 10:00~11:00</span>
-                </div>
-                <div class="w-3/4 flex justify-between items-center">
-                  <span></span>
-                  <span class="mr-1" @click="openchildDialog(3)">
-                    <img src="../../../assets/img/add.png" alt="" class="w-4"
-                  /></span>
-                </div>
-              </div>
-              <div
-                class="flex border-solid border-2 border-gray-100 rounded-md h-10 mb-1"
-              >
-                <div class="w-1/4 bg-gray-100 flex items-center p-1">
-                  <span> 11:00~12:00</span>
-                </div>
-                <div class="w-3/4 flex justify-between items-center">
-                  <span></span>
-                  <span class="mr-1" @click="openchildDialog(4)">
-                    <img src="../../../assets/img/add.png" alt="" class="w-4"
-                  /></span>
-                </div>
-              </div> -->
             </div>
             <!-- 右侧时间 -->
             <div class="flex-1 ml-2">
@@ -112,57 +73,28 @@
               </div>
               <div
                 v-for="(item, index) in AllTime.right"
+                :key="index"
                 class="flex border-solid border-2 border-gray-100 rounded-md mb-1"
               >
                 <div class="w-1/4 bg-gray-100 flex items-center p-2">
-                  <span> {{ item }}</span>
+                  <span> {{ item.dates }}</span>
                 </div>
                 <div class="w-3/4 flex justify-between items-center">
-                  <span></span>
-                  <span class="mr-1" @click="openchildDialog(index + 4)">
-                    <img src="../../../assets/img/add.png" alt="" class="w-4"
-                  /></span>
+                  <!-- 测试内容 -->
+                  <div>
+                    <div v-for="(child, index) in item.contant" :key="index">
+                      <span>{{ child.start }} {{ child.end }}</span>
+                      <span>{{ child.time8 }}</span>
+                    </div>
+                  </div>
+                  <!-- 按钮 -->
+                  <div class="flex items-center">
+                    <span class="mr-1" @click="openchildDialog(index + 4)">
+                      <img src="../../../assets/img/add.png" alt="" class="w-4"
+                    /></span>
+                  </div>
                 </div>
               </div>
-              <!-- <div
-                class="flex border-solid border-2 border-gray-100 rounded-md h-10 mb-1"
-              >
-                <div class="w-1/4 bg-gray-100 flex items-center p-1">
-                  <span> 14:00~15:00</span>
-                </div>
-                <div class="w-3/4 flex justify-between items-center">
-                  <span></span>
-                  <span class="mr-1" @click="openchildDialog(6)">
-                    <img src="../../../assets/img/add.png" alt="" class="w-4"
-                  /></span>
-                </div>
-              </div>
-              <div
-                class="flex border-solid border-2 border-gray-100 rounded-md h-10 mb-1"
-              >
-                <div class="w-1/4 bg-gray-100 flex items-center p-1">
-                  <span> 15:00~16:00</span>
-                </div>
-                <div class="w-3/4 flex justify-between items-center">
-                  <span></span>
-                  <span class="mr-1" @click="openchildDialog(7)">
-                    <img src="../../../assets/img/add.png" alt="" class="w-4"
-                  /></span>
-                </div>
-              </div>
-              <div
-                class="flex border-solid border-2 border-gray-100 rounded-md h-10 mb-1"
-              >
-                <div class="w-1/4 bg-gray-100 flex items-center p-1">
-                  <span> 16:00~17:00</span>
-                </div>
-                <div class="w-3/4 flex justify-between items-center">
-                  <span></span>
-                  <span class="mr-1" @click="openchildDialog(8)">
-                    <img src="../../../assets/img/add.png" alt="" class="w-4"
-                  /></span>
-                </div>
-              </div> -->
             </div>
           </div>
           <!-- 子组件Dialog -->
@@ -196,21 +128,6 @@
                     class="w-6 h-6 bg-red-500 text-white rounded-md text-center"
                     >差</span
                   >
-                  <!-- <span
-                    v-if="formdata.radio1 === '差'"
-                    class="w-6 h-6 bg-red-500 text-white rounded-md text-center"
-                    >差</span
-                  >
-                  <span
-                    v-else-if="formdata.radio1 === '中'"
-                    class="w-6 h-6 bg-orange-300 text-white rounded-md text-center"
-                    >中</span
-                  >
-                  <span
-                    v-else-if="formdata.radio1 === '好'"
-                    class="w-6 h-6 bg-green-500 text-white rounded-md text-center"
-                    >好</span
-                  > -->
                 </div>
                 <div class="flex">
                   <span>工作效率:</span>
@@ -382,32 +299,9 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, SetupContext, ref, reactive } from 'vue'
+import { defineComponent, SetupContext, ref, reactive, onMounted } from 'vue'
 import childrenDialogVue from './childrenDialog.vue'
 import type { FormInstance, FormRules } from 'element-plus'
-// 控制子组件的弹窗
-const childrenDialog = () => {
-  // 打开子组件的dialog
-  const openchildDialog = (val: any) => {
-    console.log(val)
-    showChilDialog.isOpen = true
-    showChilDialog.showTime = val
-  }
-  // 子组件是否打开,子组件传值
-  const showChilDialog = reactive({
-    isOpen: false,
-    showTime: 1
-  })
-  // 接受子组件发送的事件
-  const closed = () => {
-    showChilDialog.isOpen = false
-  }
-  return {
-    openchildDialog,
-    showChilDialog,
-    closed
-  }
-}
 export default defineComponent({
   name: '',
   components: {
@@ -420,11 +314,28 @@ export default defineComponent({
   },
   emits: ['close'],
   setup(prop, SetupContext) {
-    // 渲染今日数据两侧的时间
-    const AllTime = reactive({
-      left: ['08:00-09:00', '09:00-10:00', '10:00-11:00', '11:00-12:00'],
-      right: ['13:00-14:00', '14:00-15:00', '15:00-16:00', '16:00-17:00']
+    /**
+     * 打开顶部时间段子组件相关的代码
+     */
+    // 打开子组件的dialog
+    const openchildDialog = (val: any) => {
+      console.log(val)
+      showChilDialog.isOpen = true
+      showChilDialog.showTime = val
+    }
+    // 子组件是否打开,子组件传值
+    const showChilDialog = reactive({
+      isOpen: false,
+      showTime: 1
     })
+    // 接受子组件发送的事件
+    const closed = () => {
+      showChilDialog.isOpen = false
+    }
+    /**
+     * 打开顶部时间段子组件相关的代码结束
+     */
+
     // 渲染单选按钮
     const fdf = ref()
     fdf.value = [
@@ -442,12 +353,20 @@ export default defineComponent({
     // }
 
     // 表单数据
+
     /**
      * 表单里的所有内容
      */
     const formdatademo = {
       // 今日数据的时间段
-      todyData: [{ start: '', end: '', time8: '' }],
+      todyData8: [{ start: '', end: '', time8: '' }],
+      todyData9: [{ start: '', end: '', time8: '' }],
+      todyData10: [{ start: '', end: '', time8: '' }],
+      todyData11: [{ start: '', end: '', time8: '' }],
+      todyData13: [{ start: '', end: '', time8: '' }],
+      todyData14: [{ start: '', end: '', time8: '' }],
+      todyData15: [{ start: '', end: '', time8: '' }],
+      todyData16: [{ start: '', end: '', time8: '' }],
       // 成果转换内容
       contant1: [],
       // 成果转化单选框内容
@@ -464,8 +383,28 @@ export default defineComponent({
     }
     const formdata = ref()
     formdata.value = JSON.parse(JSON.stringify(formdatademo))
+    console.log(formdata.value)
+    console.log(formdatademo)
+
+    // 渲染今日数据两侧的时间
+    const AllTime = reactive({
+      left: [
+        { dates: '08:00-09:00', contant: formdata.value.todyData8 },
+        { dates: '09:00-10:00', contant: formdata.value.todyData9 },
+        { dates: '10:00-11:00', contant: formdata.value.todyData10 },
+        { dates: '11:00-12:00', contant: formdata.value.todyData11 }
+      ],
+      right: [
+        { dates: '13:00-14:00', contant: formdata.value.todyData13 },
+        { dates: '14:00-15:00', contant: formdata.value.todyData14 },
+        { dates: '15:00-16:00', contant: formdata.value.todyData15 },
+        { dates: '16:00-17:00', contant: formdata.value.todyData16 }
+      ]
+    })
     // 子组件点击成功传来的数据
     const success = (data: any) => {
+      console.log(data)
+
       if (data.contant1 !== '') {
         formdata.value.contant1.push(data.contant1)
         formdata.value.radio3.push(data.radio1)
@@ -477,11 +416,56 @@ export default defineComponent({
         if (Number(data.end) < 10) {
           data.end = '0' + data.end
         }
-        formdata.value.todyData.push({
-          start: `08:${data.start} ~`,
-          end: `08:${data.end} :`,
-          time8: data.diacontant
-        })
+        if (showChilDialog.showTime === 0) {
+          formdata.value.todyData8.push({
+            start: `08:${data.start} ~`,
+            end: `08:${data.end} :`,
+            time8: data.diacontant
+          })
+        } else if (showChilDialog.showTime === 1) {
+          formdata.value.todyData9.push({
+            start: `09:${data.start} ~`,
+            end: `09:${data.end} :`,
+            time8: data.diacontant
+          })
+        } else if (showChilDialog.showTime === 2) {
+          formdata.value.todyData10.push({
+            start: `10:${data.start} ~`,
+            end: `10:${data.end} :`,
+            time8: data.diacontant
+          })
+        } else if (showChilDialog.showTime === 3) {
+          formdata.value.todyData11.push({
+            start: `11:${data.start} ~`,
+            end: `11:${data.end} :`,
+            time8: data.diacontant
+          })
+        } else if (showChilDialog.showTime === 4) {
+          formdata.value.todyData13.push({
+            start: `13:${data.start} ~`,
+            end: `13:${data.end} :`,
+            time8: data.diacontant
+          })
+        } else if (showChilDialog.showTime === 5) {
+          formdata.value.todyData14.push({
+            start: `14:${data.start} ~`,
+            end: `14:${data.end} :`,
+            time8: data.diacontant
+          })
+        } else if (showChilDialog.showTime === 6) {
+          formdata.value.todyData15.push({
+            start: `15:${data.start} ~`,
+            end: `15:${data.end} :`,
+            time8: data.diacontant
+          })
+        } else if (showChilDialog.showTime === 7) {
+          formdata.value.todyData16.push({
+            start: `16:${data.start} ~`,
+            end: `16:${data.end} :`,
+            time8: data.diacontant
+          })
+        }
+        console.log(formdata.value.todyData8)
       }
     }
     // 表单的ref
@@ -521,13 +505,18 @@ export default defineComponent({
     }
     // 关闭dialog
     const closedOne = (val: any) => {
-      console.log(Object.prototype.toString.call(formdatademo.contant1))
       showNowdata.value = false
       val.resetFields()
-      formdata.value = JSON.parse(JSON.stringify(formdatademo))
+      formdata.value = [JSON.parse(JSON.stringify(formdatademo))]
     }
+    onMounted(() => {
+      console.log(formdata.value)
+      console.log(formdatademo)
+    })
     return {
-      ...childrenDialog(),
+      openchildDialog,
+      showChilDialog,
+      closed,
       AllTime,
       fdf,
       success,

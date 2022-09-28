@@ -125,6 +125,8 @@ export default defineComponent({
     //   点开今日数据后显示哪一个时间段 如：08:00
     const whenTime = ref('')
     const opened = () => {
+      console.log(prop.childata)
+
       if (prop.childata.showTime === 0) {
         whenTime.value = '08时'
       } else if (prop.childata.showTime === 1) {

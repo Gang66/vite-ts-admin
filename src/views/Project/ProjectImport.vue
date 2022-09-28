@@ -82,7 +82,11 @@
             :total="tableData1.length"
           />
         </div>
-        <SummarizeDialogVue :data="SummarizeData" @close="close" />
+        <SummarizeDialogVue
+          :data="SummarizeData"
+          @close="close"
+          v-if="SummarizeData.dialogVisible"
+        />
       </el-card>
     </div>
     <div class="mt-5 ml-3 w-1/5 rounded-md">
