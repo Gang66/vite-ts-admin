@@ -36,7 +36,7 @@
           style="margin-left: 20px; color: #468bfd; border: 1px solid #468bfd"
           >查询</el-button
         >
-        <el-button type="primary">资产申请</el-button>
+        <el-button type="primary" @click="addAssets">资产申请</el-button>
       </div>
     </div>
     <!-- table表格 -->
@@ -67,12 +67,32 @@
         </el-table-column>
       </el-table>
     </div>
+    <!-- 资产新增页面 -->
+    <addPurchaseVue :addData="addData" @closeAddDialog="closeAddDialog" />
   </div>
 </template>
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue'
+import addPurchaseVue from './addPurchase.vue'
+const addPurch = () => {
+  // 给新增传递的数据
+  const addData = reactive({
+    showAddDialog: false
+  })
+  // 打开新增
+  const addAssets = () => {
+    addData.showAddDialog = true
+  }
+  const closeAddDialog = () => {
+    addData.showAddDialog = false
+  }
+  return { addData, closeAddDialog, addAssets }
+}
 export default defineComponent({
   name: '',
+  components: {
+    addPurchaseVue
+  },
   setup() {
     // 资产采购table表中的筛选
     const formdata = reactive({
@@ -170,7 +190,7 @@ export default defineComponent({
         state: '已通过'
       }
     ]
-    return { formdata, options, options1, tableData }
+    return { ...addPurch(), formdata, options, options1, tableData }
   }
 })
 </script>

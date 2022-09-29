@@ -90,7 +90,9 @@
 import { defineComponent, onMounted, reactive, ref } from 'vue'
 import rightDialogVue from '../../Components/rightDialog.vue'
 import purchaseTable from './components/purchaseTable.vue'
+
 import * as echarts from 'echarts'
+
 export default defineComponent({
   name: '',
   components: {
@@ -377,7 +379,14 @@ export default defineComponent({
       chart()
       chart1()
     })
-    return { variables, query, changetime, options, datademo, dataright }
+    return {
+      variables,
+      query,
+      changetime,
+      options,
+      datademo,
+      dataright
+    }
   }
 })
 </script>
