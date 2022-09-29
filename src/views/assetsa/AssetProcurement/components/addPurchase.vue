@@ -65,7 +65,9 @@
     <div>
       <div class="flex justify-between">
         <h2 class="font-extrabold mb-2">申请明细-物品列表</h2>
-        <span class="text-blue-400">+添加</span>
+        <span class="text-blue-400 cursor-pointer" @click="addthing"
+          >+添加</span
+        >
       </div>
       <el-table
         border
@@ -76,17 +78,69 @@
         }"
       >
         <el-table-column type="selection" width="55" />
-        <el-table-column prop="name" label="物品名称" width="150" />
-        <el-table-column
-          property="Specification"
-          label="规格型号"
-          width="150"
-        />
+        <el-table-column prop="name" label="物品名称" width="150">
+          <template #default="{ row }">
+            <span v-if="aaa.name" @click="inputF('name')">{{ row.name }}</span>
+            <el-input
+              v-focus
+              v-model="row.name"
+              v-else
+              @blur="bbb('name')"
+            ></el-input>
+          </template>
+        </el-table-column>
+        <el-table-column property="Specification" label="规格型号" width="150">
+          <template #default="{ row }">
+            <span v-if="aaa.Specification" @click="inputF('Specification')">{{
+              row.Specification
+            }}</span>
+            <el-input
+              v-focus
+              v-model="row.Specification"
+              v-else
+              @blur="bbb('Specification')"
+            ></el-input>
+          </template>
+        </el-table-column>
 
         <el-table-column prop="unit" label="计量单位" width="150">
+          <template #default="{ row }">
+            <span v-if="aaa.unit" @click="inputF('unit')">{{ row.unit }}</span>
+            <el-input
+              v-focus
+              v-model="row.unit"
+              v-else
+              @blur="bbb('unit')"
+            ></el-input>
+          </template>
         </el-table-column>
-        <el-table-column property="unitPrice" label="单价" width="150" />
-        <el-table-column property="quantity" label="申请数量" width="150" />
+        <el-table-column property="unitPrice" label="单价" width="150">
+          <template #default="{ row }">
+            <span v-if="aaa.unitPrice" @click="inputF('unitPrice')">{{
+              row.unitPrice
+            }}</span>
+            <el-input
+              v-focus
+              v-model="row.unitPrice"
+              v-else
+              @blur="bbb('unitPrice')"
+            ></el-input>
+          </template>
+        </el-table-column>
+
+        <el-table-column property="quantity" label="申请数量" width="150">
+          <template #default="{ row }">
+            <span v-if="aaa.quantity" @click="inputF('quantity')">{{
+              row.quantity
+            }}</span>
+            <el-input
+              v-focus
+              v-model="row.quantity"
+              v-else
+              @blur="bbb('quantity')"
+            ></el-input>
+          </template>
+        </el-table-column>
         <el-table-column label="预计费用" width="150">
           <template #default="{ row }">
             {{ row.unitPrice * row.quantity }}
@@ -120,14 +174,14 @@ export default defineComponent({
     const getCurrentTime = () => {
       let date = new Date()
       let year = date.getFullYear()
-      let month = date.getMonth() + 1
-      month < 10 ? '0' + month : month
-      let strdate = date.getDate()
-      strdate < 10 ? '0' + strdate : strdate
-      let hour = date.getHours()
-      hour < 10 ? '0' + hour : hour
-      let min = date.getMinutes()
-      min < 10 ? '0' + min : min
+      let month: any = date.getMonth() + 1
+      month = month < 10 ? '0' + month : month
+      let strdate: any = date.getDate()
+      strdate = strdate < 10 ? '0' + strdate : strdate
+      let hour: any = date.getHours()
+      hour = hour < 10 ? '0' + hour : hour
+      let min: any = date.getMinutes()
+      min = min < 10 ? '0' + min : min
       let currentDate =
         year + '-' + month + '-' + strdate + ' ' + hour + ':' + min
       return currentDate
@@ -143,8 +197,6 @@ export default defineComponent({
       illustrate: '',
       tableData: [
         {
-          show: [0, 0, 0, 0, 0],
-          id: 1,
           name: '人体工学椅',
           Specification: '#3022',
           unit: '个',
@@ -198,15 +250,6 @@ export default defineComponent({
       ruleForm.value.times = getCurrentTime()
     }
 
-    // 控制进入table表单后点击出现输入框
-    // const editdes = ref(null)
-    // const switchDesState = (row: any) => {
-    //   editdes.value = row.id
-    // }
-    // const levelDesIt = (row: any) => {
-    //   editdes.value = null
-    // }
-
     //   点击取消按钮
     const Cancel = (val: any) => {
       val.resetFields()
@@ -224,10 +267,34 @@ export default defineComponent({
         }
       })
     }
+    //添加
+    const addthing = () => {
+      const obj = reactive({
+        name: '物品名称',
+        Specification: '规格型号',
+        unit: '计量单位',
+        unitPrice: 0,
+        quantity: 0,
+        totalMoney: null
+      })
+      ruleForm.value.tableData.push(obj)
+    }
+    const aaa: any = reactive({
+      name: true,
+      Specification: true,
+      unit: true,
+      unitPrice: true,
+      quantity: true
+    })
+    //span 点击事件
+    const inputF = (val: any) => {
+      aaa[val] = false
+    }
+    //input blur
+    const bbb = (val: any) => {
+      aaa[val] = true
+    }
     return {
-      // editdes,
-      // switchDesState,
-      // levelDesIt,
       openDialog,
       Cancel,
       ruleForm,
@@ -235,7 +302,11 @@ export default defineComponent({
       rules,
       Confirm,
       options,
-      getCurrentTime
+      getCurrentTime,
+      addthing,
+      aaa,
+      inputF,
+      bbb
     }
   }
 })

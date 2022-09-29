@@ -24,7 +24,13 @@ app.use(ElementPlus)
 app.use(router)
 app.use(pinia)
 app.component('SvgIcon', SvgIcon)
-
+app.directive('focus', {
+    mounted(el) {
+        if (el.querySelector('input')) {
+           el.querySelector('input').focus()
+        }
+    }
+})
 const ElIconsData = ElIcons as unknown as Array<() => Promise<typeof import('*.vue')>>
 for (const iconName in ElIconsData) {
     app.component(`ElIcon${iconName}`, ElIconsData[iconName])
