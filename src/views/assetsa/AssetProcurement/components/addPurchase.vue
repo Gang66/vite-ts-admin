@@ -1,192 +1,218 @@
 <template>
-  <el-dialog
-    v-model="addData.showAddDialog"
-    width="70%"
-    @closed="Cancel(ruleFormRef)"
-    @opened="openDialog(ruleFormRef)"
-  >
-    <h2 class="text-lg font-bold">新增资产采购</h2>
-    <hr class="mt-4 mb-4" />
-    <!-- 表单内容 -->
-    <div>
-      <el-form
-        ref="ruleFormRef"
-        :model="ruleForm"
-        :rules="rules"
-        class="demo-ruleForm"
-        status-icon
-        label-width="80px"
-      >
-        <h2 class="font-extrabold mb-2">基础信息</h2>
-        <el-row>
-          <el-col :span="8">
-            <el-form-item label="申请时间">
-              <el-input v-model="ruleForm.times" disabled></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="申请人">
-              <el-input v-model="ruleForm.name" disabled></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="事业部">
-              <el-input v-model="ruleForm.department" disabled></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="8">
-            <el-form-item label="部门" prop="department1">
-              <el-input v-model="ruleForm.department1"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="采购渠道" prop="channel">
-              <el-select v-model="ruleForm.channel" style="width: 230px">
-                <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="申请说明" prop="illustrate">
-              <el-input v-model="ruleForm.illustrate"> </el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>
-    </div>
-    <!-- table表格内容 -->
-    <div>
-      <div class="flex justify-between">
-        <h2 class="font-extrabold mb-2">申请明细-物品列表</h2>
-        <span class="text-blue-400 cursor-pointer" @click="addthing"
-          >+添加</span
+  <div class="assetsa-AssetProcurement-components-addPurchase">
+    <el-dialog
+      v-model="addData.showAddDialog"
+      width="70%"
+      @closed="Cancel(ruleFormRef)"
+      @opened="openDialog(ruleFormRef)"
+    >
+      <h2 class="text-lg font-bold">新增资产采购</h2>
+      <hr class="mt-4 mb-4" />
+      <!-- 表单内容 -->
+      <div>
+        <el-form
+          ref="ruleFormRef"
+          :model="ruleForm"
+          :rules="rules"
+          class="demo-ruleForm"
+          status-icon
+          label-width="80px"
         >
+          <h2 class="font-extrabold mb-2">基础信息</h2>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="申请时间">
+                <el-input v-model="ruleForm.times" disabled></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="申请人">
+                <el-input v-model="ruleForm.name" disabled></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="事业部">
+                <el-input v-model="ruleForm.department" disabled></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="部门" prop="department1">
+                <el-input disabled v-model="ruleForm.department1"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="采购渠道" prop="channel">
+                <el-select v-model="ruleForm.channel" style="width: 230px">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  />
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="申请说明" prop="illustrate">
+                <el-input v-model="ruleForm.illustrate"> </el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
       </div>
-      <el-table
-        border
-        :data="ruleForm.tableData"
-        style="width: 100%"
-        :header-cell-style="{
-          backgroundColor: '#fafafa'
-        }"
-      >
-        <el-table-column type="selection" width="55" />
-        <el-table-column prop="name" label="物品名称" width="150">
-          <template #default="{ row, $index }">
-            <span
-              v-if="showType[$index].name"
-              @click="inputF('name', $index)"
-              >{{ row.name }}</span
-            >
-            <el-input
-              v-focus
-              v-model="row.name"
-              v-else
-              @blur="blurBtn('name', $index)"
-            ></el-input>
-          </template>
-        </el-table-column>
-        <el-table-column prop="Specification" label="规格型号" width="150">
-          <template #default="{ row, $index }">
-            <span
-              v-if="showType[$index].Specification"
-              @click="inputF('Specification', $index)"
-              >{{ row.Specification }}</span
-            >
-            <el-input
-              v-focus
-              v-model="row.Specification"
-              v-else
-              @blur="blurBtn('Specification', $index)"
-            ></el-input>
-          </template>
-        </el-table-column>
+      <!-- table表格内容 -->
+      <div>
+        <div class="flex justify-between">
+          <h2 class="font-extrabold mb-2">申请明细-物品列表</h2>
+          <span class="text-blue-400 cursor-pointer" @click="addthing"
+            >+添加</span
+          >
+        </div>
+        <el-table
+          border
+          :data="ruleForm.tableData"
+          style="width: 100%"
+          :header-cell-style="{
+            backgroundColor: '#fafafa'
+          }"
+        >
+          <el-table-column type="selection" width="55" />
+          <el-table-column prop="name" label="物品名称" width="150">
+            <template #default="{ row, $index }">
+              <div
+                class="h-5 w-full"
+                v-if="showType[$index].name"
+                @click="inputF('name', $index)"
+              >
+                {{ row.name }}
+              </div>
+              <el-input
+                placeholder="请输入物品名称"
+                v-focus
+                v-model="row.name"
+                v-else
+                @blur="blurBtn('name', $index)"
+              ></el-input>
+            </template>
+          </el-table-column>
+          <el-table-column prop="Specification" label="规格型号" width="150">
+            <template #default="{ row, $index }">
+              <div
+                class="h-5 w-full"
+                v-if="showType[$index].Specification"
+                @click="inputF('Specification', $index)"
+              >
+                {{ row.Specification }}
+              </div>
+              <el-input
+                placeholder="请输入规格型号"
+                v-focus
+                v-model="row.Specification"
+                v-else
+                @blur="blurBtn('Specification', $index)"
+              ></el-input>
+            </template>
+          </el-table-column>
 
-        <el-table-column prop="unit" label="计量单位" width="150">
-          <template #default="{ row, $index }">
-            <span
-              v-if="showType[$index].unit"
-              @click="inputF('unit', $index)"
-              >{{ row.unit }}</span
-            >
-            <el-input
-              v-focus
-              v-model="row.unit"
-              v-else
-              @blur="blurBtn('unit', $index)"
-            ></el-input>
-          </template>
-        </el-table-column>
-        <el-table-column property="unitPrice" label="单价" width="150">
-          <template #default="{ row, $index }">
-            <span
-              v-if="showType[$index].unitPrice"
-              @click="inputF('unitPrice', $index)"
-              >{{ row.unitPrice }}</span
-            >
-            <el-input
-              oninput="value=value.replace(/^\.+|[^\d.]/g,'').replace(/^0{1,}/g,'')"
-              v-focus
-              v-model="row.unitPrice"
-              v-else
-              @blur="blurBtn('unitPrice', $index)"
-            ></el-input>
-          </template>
-        </el-table-column>
-        <el-table-column property="quantity" label="申请数量" width="150">
-          <template #default="{ row, $index }">
-            <span
-              v-focus
-              v-if="showType[$index].quantity"
-              @click="inputF('quantity', $index)"
-              >{{ row.quantity }}</span
-            >
-            <el-input
-              oninput="value=value.replace(/^\.+|[^\d.]/g,'').replace(/^0{1,}/g,'')"
-              v-focus
-              v-model="row.quantity"
-              v-else
-              @blur="blurBtn('quantity', $index)"
-            ></el-input>
-          </template>
-        </el-table-column>
-        <el-table-column label="预计费用" width="150">
-          <template #default="{ row }">
-            {{ row.unitPrice * row.quantity }}
-          </template>
-        </el-table-column>
-        <el-table-column label="备注">
-          <template #default="{ row, $index }">
-            <span
-              v-if="showType[$index].Remark"
-              @click="inputF('Remark', $index)"
-            >
-              {{ row.Remark }}
-            </span>
-            <el-input
-              v-focus
-              v-model="row.Remark"
-              v-else
-              @blur="blurBtn('Remark', $index)"
-            ></el-input>
-          </template>
-        </el-table-column>
-      </el-table>
-    </div>
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="Cancel(ruleFormRef)">取消</el-button>
-        <el-button type="primary" @click="Confirm(ruleFormRef)">提交</el-button>
-      </span>
-    </template>
-  </el-dialog>
+          <el-table-column prop="unit" label="计量单位" width="150">
+            <template #default="{ row, $index }">
+              <div
+                class="h-5 w-full"
+                v-if="showType[$index].unit"
+                @click="inputF('unit', $index)"
+              >
+                {{ row.unit }}
+              </div>
+              <el-input
+                placeholder="请输入计量单位"
+                v-focus
+                v-model="row.unit"
+                v-else
+                @blur="blurBtn('unit', $index)"
+              ></el-input>
+            </template>
+          </el-table-column>
+          <el-table-column property="unitPrice" label="单价" width="150">
+            <template #default="{ row, $index }">
+              <div
+                class="h-5 w-full"
+                v-if="showType[$index].unitPrice"
+                @click="inputF('unitPrice', $index)"
+              >
+                {{ row.unitPrice }}
+              </div>
+              <el-input
+                placeholder="请输入单价"
+                oninput="value=value.replace(/^\.+|[^\d.]/g,'').replace(/^0{1,}/g,'')"
+                v-focus
+                v-model="row.unitPrice"
+                v-else
+                @blur="blurBtn('unitPrice', $index)"
+              ></el-input>
+            </template>
+          </el-table-column>
+          <el-table-column property="quantity" label="申请数量" width="150">
+            <template #default="{ row, $index }">
+              <div
+                class="w-full h-5"
+                v-focus
+                v-if="showType[$index].quantity"
+                @click="inputF('quantity', $index)"
+              >
+                {{ row.quantity }}
+              </div>
+              <el-input
+                placeholder="请输入数量"
+                oninput="value=value.replace(/^\.+|[^\d.]/g,'').replace(/^0{1,}/g,'')"
+                v-focus
+                v-model="row.quantity"
+                v-else
+                @blur="blurBtn('quantity', $index)"
+              ></el-input>
+            </template>
+          </el-table-column>
+          <el-table-column label="预计费用" width="150">
+            <template #default="{ row, column }">
+              <div>{{ row.unitPrice * row.quantity }}</div>
+            </template>
+          </el-table-column>
+          <el-table-column label="备注">
+            <template #default="{ row, $index }">
+              <div
+                class="h-5 w-full"
+                v-if="showType[$index].Remark"
+                @click="inputF('Remark', $index)"
+              >
+                {{ row.Remark }}
+              </div>
+              <el-input
+                placeholder="请输入备注"
+                v-focus
+                v-model="row.Remark"
+                v-else
+                @blur="blurBtn('Remark', $index)"
+              ></el-input>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      <div
+        class="w-full h-10 bg-slate-100 flex justify-end items-center pr-4 text-xs"
+      >
+        <span>预计总金额(元) </span>
+      </div>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="Cancel(ruleFormRef)">取消</el-button>
+          <el-button type="primary" @click="Confirm(ruleFormRef)"
+            >提交</el-button
+          >
+        </span>
+      </template>
+    </el-dialog>
+  </div>
 </template>
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue'
@@ -220,8 +246,8 @@ export default defineComponent({
     const ruleFormdemo = {
       times: '',
       name: '测试人',
-      department: '测试部门',
-      department1: '',
+      department: '测试事业部',
+      department1: '测试部门',
       channel: '',
       illustrate: '',
       tableData: []
@@ -291,17 +317,17 @@ export default defineComponent({
     //添加
     const addthing = () => {
       var obj = {
-        name: '请输入物品名称',
-        Specification: '请输入规格型号',
-        unit: '请输入计量单位',
+        name: '',
+        Specification: '',
+        unit: '',
         unitPrice: 0,
         quantity: 0,
         totalMoney: null,
-        Remark: '请输入备注'
+        Remark: ''
       }
       ruleForm.value.tableData.push(obj)
       showType.push({
-        name: true,
+        name: false,
         Specification: true,
         unit: true,
         unitPrice: true,
@@ -312,7 +338,7 @@ export default defineComponent({
     // 控制是否显示input框或者span
     const showType: any = reactive([
       {
-        name: true,
+        name: false,
         Specification: true,
         unit: true,
         unitPrice: true,
@@ -345,4 +371,9 @@ export default defineComponent({
   }
 })
 </script>
-<style scoped></style>
+<style lang="postcss" scoped>
+.assetsa-AssetProcurement-components-addPurchase {
+  :deep(.el-table--fit) {
+  }
+}
+</style>
