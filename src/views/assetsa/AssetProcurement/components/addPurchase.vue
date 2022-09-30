@@ -79,65 +79,81 @@
       >
         <el-table-column type="selection" width="55" />
         <el-table-column prop="name" label="物品名称" width="150">
-          <template #default="{ row }">
-            <span v-if="aaa.name" @click="inputF('name')">{{ row.name }}</span>
+          <template #default="{ row, $index }">
+            <span
+              v-if="showType[$index].name"
+              @click="inputF('name', $index)"
+              >{{ row.name }}</span
+            >
             <el-input
               v-focus
               v-model="row.name"
               v-else
-              @blur="bbb('name')"
+              @blur="blurBtn('name', $index)"
             ></el-input>
           </template>
         </el-table-column>
-        <el-table-column property="Specification" label="规格型号" width="150">
-          <template #default="{ row }">
-            <span v-if="aaa.Specification" @click="inputF('Specification')">{{
-              row.Specification
-            }}</span>
+        <el-table-column prop="Specification" label="规格型号" width="150">
+          <template #default="{ row, $index }">
+            <span
+              v-if="showType[$index].Specification"
+              @click="inputF('Specification', $index)"
+              >{{ row.Specification }}</span
+            >
             <el-input
               v-focus
               v-model="row.Specification"
               v-else
-              @blur="bbb('Specification')"
+              @blur="blurBtn('Specification', $index)"
             ></el-input>
           </template>
         </el-table-column>
 
         <el-table-column prop="unit" label="计量单位" width="150">
-          <template #default="{ row }">
-            <span v-if="aaa.unit" @click="inputF('unit')">{{ row.unit }}</span>
+          <template #default="{ row, $index }">
+            <span
+              v-if="showType[$index].unit"
+              @click="inputF('unit', $index)"
+              >{{ row.unit }}</span
+            >
             <el-input
               v-focus
               v-model="row.unit"
               v-else
-              @blur="bbb('unit')"
+              @blur="blurBtn('unit', $index)"
             ></el-input>
           </template>
         </el-table-column>
         <el-table-column property="unitPrice" label="单价" width="150">
-          <template #default="{ row }">
-            <span v-if="aaa.unitPrice" @click="inputF('unitPrice')">{{
-              row.unitPrice
-            }}</span>
+          <template #default="{ row, $index }">
+            <span
+              v-if="showType[$index].unitPrice"
+              @click="inputF('unitPrice', $index)"
+              >{{ row.unitPrice }}</span
+            >
             <el-input
+              oninput="value=value.replace(/^\.+|[^\d.]/g,'').replace(/^0{1,}/g,'')"
               v-focus
               v-model="row.unitPrice"
               v-else
-              @blur="bbb('unitPrice')"
+              @blur="blurBtn('unitPrice', $index)"
             ></el-input>
           </template>
         </el-table-column>
-
         <el-table-column property="quantity" label="申请数量" width="150">
-          <template #default="{ row }">
-            <span v-if="aaa.quantity" @click="inputF('quantity')">{{
-              row.quantity
-            }}</span>
+          <template #default="{ row, $index }">
+            <span
+              v-focus
+              v-if="showType[$index].quantity"
+              @click="inputF('quantity', $index)"
+              >{{ row.quantity }}</span
+            >
             <el-input
+              oninput="value=value.replace(/^\.+|[^\d.]/g,'').replace(/^0{1,}/g,'')"
               v-focus
               v-model="row.quantity"
               v-else
-              @blur="bbb('quantity')"
+              @blur="blurBtn('quantity', $index)"
             ></el-input>
           </template>
         </el-table-column>
@@ -147,7 +163,20 @@
           </template>
         </el-table-column>
         <el-table-column label="备注">
-          <template #default="{ row }"></template>
+          <template #default="{ row, $index }">
+            <span
+              v-if="showType[$index].Remark"
+              @click="inputF('Remark', $index)"
+            >
+              {{ row.Remark }}
+            </span>
+            <el-input
+              v-focus
+              v-model="row.Remark"
+              v-else
+              @blur="blurBtn('Remark', $index)"
+            ></el-input>
+          </template>
         </el-table-column>
       </el-table>
     </div>
@@ -195,16 +224,7 @@ export default defineComponent({
       department1: '',
       channel: '',
       illustrate: '',
-      tableData: [
-        {
-          name: '人体工学椅',
-          Specification: '#3022',
-          unit: '个',
-          unitPrice: 2400,
-          quantity: 26,
-          totalMoney: null
-        }
-      ]
+      tableData: []
     }
     const ruleForm = ref()
     ruleForm.value = JSON.parse(JSON.stringify(ruleFormdemo))
@@ -267,32 +287,46 @@ export default defineComponent({
         }
       })
     }
+
     //添加
     const addthing = () => {
-      const obj = reactive({
-        name: '物品名称',
-        Specification: '规格型号',
-        unit: '计量单位',
+      var obj = {
+        name: '请输入物品名称',
+        Specification: '请输入规格型号',
+        unit: '请输入计量单位',
         unitPrice: 0,
         quantity: 0,
-        totalMoney: null
-      })
+        totalMoney: null,
+        Remark: '请输入备注'
+      }
       ruleForm.value.tableData.push(obj)
+      showType.push({
+        name: true,
+        Specification: true,
+        unit: true,
+        unitPrice: true,
+        quantity: true,
+        Remark: true
+      })
     }
-    const aaa: any = reactive({
-      name: true,
-      Specification: true,
-      unit: true,
-      unitPrice: true,
-      quantity: true
-    })
+    // 控制是否显示input框或者span
+    const showType: any = reactive([
+      {
+        name: true,
+        Specification: true,
+        unit: true,
+        unitPrice: true,
+        quantity: true,
+        Remark: true
+      }
+    ])
     //span 点击事件
-    const inputF = (val: any) => {
-      aaa[val] = false
+    const inputF = (val: any, index: number) => {
+      showType[index][val] = false
     }
-    //input blur
-    const bbb = (val: any) => {
-      aaa[val] = true
+    //input blur 失去焦点出现span
+    const blurBtn = (val: any, index: number) => {
+      showType[index][val] = true
     }
     return {
       openDialog,
@@ -304,9 +338,9 @@ export default defineComponent({
       options,
       getCurrentTime,
       addthing,
-      aaa,
+      showType,
       inputF,
-      bbb
+      blurBtn
     }
   }
 })

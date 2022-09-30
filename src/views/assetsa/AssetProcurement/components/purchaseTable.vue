@@ -2,8 +2,8 @@
   <div class="assetsa-assetProcurement-components-purchaseTable">
     <div class="flex justify-between">
       <h2>资产采购</h2>
-      <div class="flex">
-        <el-select v-model="formdata.head">
+      <div class="flex changeType">
+        <el-select v-model="formdata.head" class="firstSelect">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -24,7 +24,9 @@
           start-placeholder="开始时间"
           end-placeholder="结束时间"
         />
-        <el-select v-if="formdata.head === 'channel'" v-model="formdata.channel"
+        <el-select
+          v-else-if="formdata.head === 'channel'"
+          v-model="formdata.channel"
           ><el-option
             v-for="item in options1"
             :key="item.value"
@@ -88,6 +90,7 @@ const addPurch = () => {
   }
   return { addData, closeAddDialog, addAssets }
 }
+
 export default defineComponent({
   name: '',
   components: {
@@ -194,4 +197,17 @@ export default defineComponent({
   }
 })
 </script>
-<style lang="postcss" scoped></style>
+<style lang="postcss" scoped>
+.assetsa-assetProcurement-components-purchaseTable {
+  :deep(.changeType) {
+    .firstSelect {
+      .el-input__inner {
+        width: 200px;
+      }
+    }
+    .el-input__inner {
+      width: 300px;
+    }
+  }
+}
+</style>
